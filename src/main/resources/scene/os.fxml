@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="osPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="720.0" prefWidth="820.0">
+         <children>
+            <AnchorPane prefHeight="60.0" prefWidth="800.0" />
+            <AnchorPane prefHeight="600.0" prefWidth="820.0">
+               <children>
+                  <HBox prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TableView fx:id="atmTable" prefHeight="600.0" prefWidth="800.0" stylesheets="@../style/tableView.css">
+                          <columns>
+                            <TableColumn fx:id="codeCol" minWidth="100.0" text="Code" />
+                            <TableColumn fx:id="nameCol" minWidth="150.0" prefWidth="0.0" text="Name" />
+                              <TableColumn fx:id="addressCol" minWidth="300.0" prefWidth="0.0" text="Address" />
+                              <TableColumn fx:id="moneyCol" minWidth="150.0" prefWidth="75.0" text="Money Storage" />
+                              <TableColumn fx:id="statusCol" minWidth="100.0" prefWidth="75.0" text="Status" />
+                          </columns>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </HBox.margin>
+                        </TableView>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="bottomBar" prefHeight="60.0" prefWidth="800.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox layoutX="820.0" prefHeight="200.0" prefWidth="260.0" spacing="35.0">
+         <padding>
+            <Insets left="5.0" right="15.0" top="80.0" />
+         </padding>
+         <children>
+            <JFXTextField fx:id="textCode" focusColor="#7faef5" labelFloat="true" promptText="Code" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
+               <font>
+                  <Font name="Bodoni MT Bold" size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="textName" labelFloat="true" promptText="Name" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
+               <font>
+                  <Font name="Bodoni MT Bold" size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="textMoneyStorage" labelFloat="true" onKeyTyped="#checkValueMoneyText" promptText="Money Storage" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
+               <font>
+                  <Font name="Bodoni MT Bold" size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="textAddress" labelFloat="true" promptText="Address" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
+               <font>
+                  <Font name="Bodoni MT Bold" size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXComboBox fx:id="comboBoxProvince" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="Province / City" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />
+            <JFXComboBox fx:id="comboBoxDistrict" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="District" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />
+            <JFXComboBox fx:id="comboBoxWard" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="Ward" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />
+            <JFXToggleButton fx:id="toggleActive" prefWidth="240.0" stylesheets="@../style/editTable.css" text="Active" textFill="#5c9ae0" unToggleColor="#fc9494" unToggleLineColor="#f2e2e2" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

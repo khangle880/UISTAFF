@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox prefHeight="720.0" prefWidth="270.0" styleClass="navBarBox" stylesheets="@../style/navBar.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="218.0" prefWidth="270.0">
+         <children>
+            <VBox>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <children>
+                  <Circle fx:id="cir2" fill="TRANSPARENT" radius="85.0" stroke="TRANSPARENT" strokeType="INSIDE">
+                     <VBox.margin>
+                        <Insets left="25.0" right="25.0" top="15.0" />
+                     </VBox.margin>
+                  </Circle>
+                  <Label fx:id="userName" alignment="BASELINE_CENTER" contentDisplay="CENTER" focusTraversable="false" graphicTextGap="0.0" prefHeight="40.0" prefWidth="220.0" styleClass="name-label" stylesheets="@../style/navBar.css" text="Khang dep zai">
+                     <padding>
+                        <Insets top="8.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="198.0" prefWidth="47.0">
+               <children>
+                  <JFXButton fx:id="changeAvtBtn" alignment="TOP_LEFT" ellipsisString="" focusTraversable="false" prefHeight="35.0" prefWidth="35.0" text="Change avatar">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icons8_camera_32px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="changeInfoBtn" alignment="TOP_LEFT" ellipsisString="" focusTraversable="false" graphicTextGap="0.0" prefHeight="35.0" prefWidth="35.0" text="Change Info">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icons8_edit_property_32px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <Label contentDisplay="CENTER" focusTraversable="false" graphicTextGap="20.0" prefHeight="60.0" prefWidth="270.0" styleClass="info-label" stylesheets="@../style/navBar.css" text="INFORMATION">
+         <VBox.margin>
+            <Insets bottom="15.0" />
+         </VBox.margin>
+         <padding>
+            <Insets left="30.0" />
+         </padding>
+      </Label>
+      <VBox styleClass="vbox" stylesheets="@../style/navBar.css">
+         <children>
+            <Label focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Position">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_personal_growth_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </Label>
+            <Label focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Staff Code">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_contact_details_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </Label>
+            <JFXButton fx:id="seeMoreBtn" alignment="BASELINE_LEFT" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="270.0" text="See More">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_chevron_right_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </JFXButton>
+            <Separator prefWidth="200.0" styleClass="slider">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="35.0" />
+               </VBox.margin>
+            </Separator>
+            <JFXButton fx:id="homeBtn" alignment="BASELINE_LEFT" focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Home">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_home_page_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </JFXButton>
+            <JFXButton fx:id="settingBtn" alignment="BASELINE_LEFT" focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Setting">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_settings_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </JFXButton>
+            <JFXButton fx:id="signOutBtn" alignment="BASELINE_LEFT" focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Sign out">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8_sign_out_32px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </JFXButton>
+         </children>
+      </VBox>
+   </children>
+</VBox>

@@ -1,0 +1,116 @@
+/* ================================================================= */
+/* combo box style */
+/* ================================================================= */
+
+.jfx-combo-box {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #ec6fec;
+  -fx-font-size: 16px;
+  -fx-font-family: "Bodoni MT";
+  -fx-font-weight: bold;
+}
+
+.jfx-combo-box .text-field {
+  -fx-text-fill: #18dcdc;
+}
+/* ================================================================= */
+/* combo box list view style */
+
+.jfx-combo-box .list-cell {
+  -fx-background-color: transparent;
+  -fx-text-fill: linear-gradient(
+    to right top,
+    #f8f4f4,
+    #e7e5e5,
+    #d3d4d4,
+    #e2eaec,
+    #f1fbfa
+  );
+}
+
+.jfx-combo-box .list-view {
+  -fx-background-color: rgba(77, 102, 243, 0.459);
+  -fx-text-fill: linear-gradient(
+    to right top,
+    #f8f4f4,
+    #e7e5e5,
+    #d3d4d4,
+    #e2eaec,
+    #f1fbfa
+  );
+}
+
+.jfx-combo-box .list-cell:filled:selected .text,
+.choice-box .list-cell:filled:selected .text {
+  -fx-fill: #18dcdc;
+}
+
+.jfx-combo-box .arrow,
+.choice-box .arrow {
+  -fx-background-color: Pink;
+}
+
+/* ================================================================= */
+/* combo box scroll bar style */
+
+.scroll-bar:vertical *.increment-button,
+.scroll-bar:vertical *.decrement-button {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+}
+
+.scroll-bar:vertical *.increment-arrow,
+.scroll-bar:vertical *.decrement-arrow {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-shape: null;
+}
+
+.scroll-bar:horizontal *.increment-button,
+.scroll-bar:horizontal *.decrement-button {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+}
+
+.scroll-bar:horizontal *.increment-arrow,
+.scroll-bar:horizontal *.decrement-arrow {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-shape: null;
+}
+
+/* ================================================================= */
+/* text field style */
+/* ================================================================= */
+
+.text-field {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #ec6fec;
+  -fx-text-fill: #18dcdc;
+}
+
+/* ================================================================= */
+/* text field style */
+/* ================================================================= */
+
+.toggle-button {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #ec6fec;
+  -fx-text-fill: #1866dc;
+  -fx-font-family: Bodoni MT;
+  -fx-font-weight: Bold;
+  -fx-font-size: 18;
+  -jfx-toggle-button: #009688;
+  -jfx-toggle-line-color: #77c2bb;
+  -jfx-untoggle-color: #fc9494;
+  -jfx-untoggle-line-color: #f2e2e2;
+  -jfx-size: 10;
+}

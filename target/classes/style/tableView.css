@@ -1,0 +1,137 @@
+.table-view .column-header,
+.table-view .column-header-background .filler {
+  -fx-background-color: transparent;
+}
+
+.table-view {
+  -fx-border-color: rgba(8, 10, 17, 0.4);
+  -fx-focus-color: rgba(8, 10, 17, 0.4);
+  -fx-faint-focus-color: rgba(8, 10, 17, 0.4);
+  -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: rgba(17, 22, 92, 0.822);
+  -fx-padding: 5px 5px 5px 5px;
+}
+
+.table-view .column-header .label {
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-font-size: 16px;
+  -fx-alignment: CENTER;
+}
+
+.table-view:focused .table-row-cell:focused {
+  -fx-border-color: derive(-fx-base, 20%);
+  -fx-background-insets: 0 1 0 1;
+  -fx-table-cell-border-color: cyan;
+}
+
+.table-row-cell {
+  -fx-border-width: 0 0 0 0;
+  -fx-border-color: transparent;
+  -fx-table-cell-border-color: transparent;
+}
+
+.table-view .cell {
+  -fx-cell-size: 35;
+  -fx-background-color: rgba(8, 10, 17, 0.4);
+  -fx-text-fill: rgb(230, 227, 227);
+  -fx-alignment: CENTER;
+}
+
+.table-view .cell:selected {
+  -fx-background-color: whitesmoke;
+  -fx-text-background-color: #cc7d22;
+}
+
+/* Style of each entire row in the table view when is hovered */
+.table-view .cell:hover {
+  -fx-background-color: #7297c2;
+}
+
+/* Style of each entire row in the table view when is getting focused */
+.table-view .cell:focused {
+  -fx-background-color: #6590c2;
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button,
+.table-view .decrement-button {
+  -fx-background-color: transparent;
+  -fx-background-radius: 2em;
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track {
+  -fx-background-color: transparent;
+  -fx-border-color: derive(#29292d, 80%);
+  -fx-background-radius: 2em;
+  -fx-border-radius: 2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+  -fx-background-color: derive(#111412, 90%);
+  -fx-background-insets: 2, 0, 0;
+  -fx-background-radius: 2em;
+}
+
+.table-view .scroll-bar {
+  -fx-background-color: black;
+}
+
+.table-view .column-header-background .filler {
+  -fx-background-color: linear-gradient(#101010 0%, #424141 100%);
+}
+
+/* Style of each table cell */
+.table-view .table-cell {
+  -fx-background-color: transparent;
+  -fx-font-weight: bold;
+  -fx-font-size: 14px; /* the font size you asked in the comments below */
+  -fx-text-fill: white;
+}
+
+/* jfx button */
+.jfx-button {
+  /* -jfx-button-type: RAISED; */
+  -fx-padding: 3px 20px 3px 20px;
+  -fx-font-size: 14px;
+  -fx-text-fill: #60f939;
+  -fx-font-weight: BOLD;
+  -fx-background-radius: 2;
+}
+
+.jfx-button:hover {
+  -fx-padding: 2px 15px 2px 15px;
+  -fx-font-size: 14px;
+  -fx-text-fill: #60f939;
+  -fx-font-weight: BOLD;
+  -fx-background-color: linear-gradient(to top, #4b3fc6, #3552c7, #2860c4, #2d6dbe, #3f77b5);
+  -fx-background-radius: 2;
+  -fx-border-width: 1;
+  -fx-border-radius: 1;
+  -fx-border-color: #0e97afbb;
+}
+
+.jfx-button:pressed {
+  -fx-padding: 3px 15px 3px 15px;
+  -fx-font-size: 13px;
+  -fx-text-fill: #60f939;
+  -fx-font-weight: BOLD;
+  -fx-background-color:  #4b3fc6;
+  -fx-background-radius: 2;
+  -fx-border-width: 1.5;
+  -fx-border-radius: 1;
+  -fx-border-color: #0e97afbb;
+}
+
+.jfx-button .jfx-rippler {
+  -fx-rippler-fill: blue;
+}
