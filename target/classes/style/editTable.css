@@ -6,7 +6,7 @@
   -fx-prompt-text-fill: #acadb3;
   -jfx-focus-color: #ec6fec;
   -fx-font-size: 16px;
-  -fx-font-family: "Bodoni MT";
+  -fx-font-family: "Times New Roman";
   -fx-font-weight: bold;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .jfx-combo-box .list-view {
-  -fx-background-color: rgba(77, 102, 243, 0.459);
+  -fx-background-color: rgba(9, 10, 19, 0.295);
   -fx-text-fill: linear-gradient(
     to right top,
     #f8f4f4,
@@ -91,10 +91,13 @@
 /* text field style */
 /* ================================================================= */
 
-.text-field {
+.jfx-text-field {
   -fx-prompt-text-fill: #acadb3;
   -jfx-focus-color: #ec6fec;
   -fx-text-fill: #18dcdc;
+  -fx-font-size: 16px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
 }
 
 /* ================================================================= */
@@ -105,7 +108,7 @@
   -fx-prompt-text-fill: #acadb3;
   -jfx-focus-color: #ec6fec;
   -fx-text-fill: #1866dc;
-  -fx-font-family: Bodoni MT;
+  -fx-font-family: "Times New Roman";
   -fx-font-weight: Bold;
   -fx-font-size: 18;
   -jfx-toggle-button: #009688;

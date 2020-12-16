@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="osPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -48,26 +47,10 @@
             <Insets left="5.0" right="15.0" top="80.0" />
          </padding>
          <children>
-            <JFXTextField fx:id="textCode" focusColor="#7faef5" labelFloat="true" promptText="Code" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
-               <font>
-                  <Font name="Bodoni MT Bold" size="16.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="textName" labelFloat="true" promptText="Name" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
-               <font>
-                  <Font name="Bodoni MT Bold" size="16.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="textMoneyStorage" labelFloat="true" onKeyTyped="#checkValueMoneyText" promptText="Money Storage" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
-               <font>
-                  <Font name="Bodoni MT Bold" size="16.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="textAddress" labelFloat="true" promptText="Address" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3">
-               <font>
-                  <Font name="Bodoni MT Bold" size="16.0" />
-               </font>
-            </JFXTextField>
+            <JFXTextField fx:id="textCode" focusColor="#7faef5" labelFloat="true" promptText="Code" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" />
+            <JFXTextField fx:id="textName" labelFloat="true" promptText="Name" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" />
+            <JFXTextField fx:id="textMoneyStorage" labelFloat="true" onKeyTyped="#checkValueMoneyText" promptText="Money Storage" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" />
+            <JFXTextField fx:id="textAddress" labelFloat="true" promptText="Address" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" />
             <JFXComboBox fx:id="comboBoxProvince" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="Province / City" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />
             <JFXComboBox fx:id="comboBoxDistrict" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="District" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />
             <JFXComboBox fx:id="comboBoxWard" editable="true" labelFloat="true" prefHeight="33.0" prefWidth="250.0" promptText="Ward" styleClass="scroll-bar" stylesheets="@../style/editTable.css" unFocusColor="#3bbcc3" visibleRowCount="3" />

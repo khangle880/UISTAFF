@@ -10,7 +10,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -18,10 +17,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -29,7 +33,10 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import classComponent.AutoCompleteComboBoxListener;
 import classComponent.MyNumberStringConverter;
@@ -130,7 +137,7 @@ public class OS implements Initializable {
         // init
         setValueFromTableToTextField();
         initTable();
-        bindDataFromTable();
+        bindingDataForComboBox();
 
     }
 
@@ -329,81 +336,102 @@ public class OS implements Initializable {
         }
     }
 
-    // AccessDB: bind data address
-    public void bindDataFromTable() {
+    // bind data address
+    public void bindingDataForComboBox() {
 
-        // AccessDB: json data
-        JSONObject obj = new JSONObject();
-        obj.put("name", "sonoo");
-        obj.put("age", 27);
-        obj.put("salary", 600000);
-        System.out.print(obj);
+        // ---- Get JSON for comboBox
 
-        // List combox1List = new ArrayList();
-        // for (int i = 1; i < 10; i++) {
-        // combox1List.add(i);
-        // }
+        // JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
 
-        // final Map combox2Map = new HashMap();
+        try (FileReader reader = new FileReader("src/main/resources/resource/data.json")) {
+            // Read JSON file
+            Object obj = jsonParser.parse(reader);
+            JSONObject addrDict = (JSONObject) obj;
 
-        // for (int i = 0; i < combox1List.size(); i++) {
-        // List l = new ArrayList();
-        // for (int j = 1; j < 10; j++) {
-        // int k = (int) combox1List.get(i) * 10 + j;
-        // l.add(k);
-        // }
-        // combox2Map.put(combox1List.get(i), l);
-        // }
-        // final Map combox3Map = new HashMap();
-        // for (Object o : combox1List) {
-        // for (Object o1 : (List) combox2Map.get(o)) {
-        // List l = new ArrayList();
-        // for (int i = 1; i < 10; i++) {
-        // int value = (int) o1 * 10 + i;
-        // l.add(value);
-        // }
-        // combox3Map.put(o1, l);
-        // }
-        // }
-        // ObservableList combox1 = FXCollections.observableList(combox1List);
-        // HBox box = new HBox(20);
-        // box.setPadding(new Insets(20, 20, 20, 20));
-        // ComboBox cb1 = new ComboBox();
-        // final ComboBox cb2 = new ComboBox();
-        // final ComboBox cb3 = new ComboBox();
-        // cb1.setItems(combox1);
-        // cb1.getSelectionModel().selectedItemProperty().addListener(new
-        // ChangeListener() {
-        // @Override
-        // public void changed(ObservableValue ov, Object t, Object t1) {
-        // ObservableList combox2 = FXCollections.observableArrayList((List)
-        // combox2Map.get(t1));
-        // cb2.setItems(combox2);
-        // }
-        // });
+            initDataEnableBindingComboBox(addrDict);
 
-        // cb2.getSelectionModel().selectedItemProperty().addListener(new
-        // ChangeListener() {
-        // @Override
-        // public void changed(ObservableValue ov, Object t, Object t1) {
-        // if (t1 != null) {
-        // ObservableList combox3 = FXCollections.observableArrayList((List)
-        // combox3Map.get(t1));
-        // cb3.setItems(combox3);
-        // }
-        // }
-        // });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        // Quynh Luu
+        // comboBoxWard.getItems().addAll("Dong hoa", "Item 2", "Item 3");
+        // comboBoxDistrict.getItems().addAll("Di an", "Item 2", "Item 3");
+        // comboBoxProvince.getItems().addAll("Binh duong", "Item 2", "Item 3");
+    }
 
-        // Quynh Trang
-        // Quynh Vinh
-        // Quynh Tho
-        // Quynh Nu
+    // parse address dictionary data from json
+    public void initDataEnableBindingComboBox(JSONObject addrDict) {
 
-        comboBoxWard.getItems().addAll("Dong hoa", "Item 2", "Item 3");
-        comboBoxDistrict.getItems().addAll("Di an", "Item 2", "Item 3");
-        comboBoxProvince.getItems().addAll("Binh duong", "Item 2", "Item 3");
+        // ---- convert json object to map object with only name string
+        List provinceList = new ArrayList();
+
+        // get array province in Json file
+        JSONArray provinceJsonList = (JSONArray) addrDict.get("Province/City");
+
+        // get name province add into list
+        for (Object province : provinceJsonList) {
+            provinceList.add(((JSONObject) province).get("Name"));
+        }
+
+        final Map DistrictMap = new HashMap();
+
+        for (int i = 0; i < provinceList.size(); i++) {
+            List l = new ArrayList();
+
+            // get array district per province in Json file
+            JSONArray districtJsonList = (JSONArray) ((JSONObject) provinceJsonList.get(i)).get("District");
+
+            // get name district add into list
+            for (Object district : districtJsonList) {
+                l.add(((JSONObject) district).get("Name"));
+            }
+            DistrictMap.put(provinceList.get(i), l);
+        }
+
+        final Map WardMap = new HashMap();
+        for (int i = 0; i < provinceList.size(); i++) {
+            Object districts = DistrictMap.get(provinceList.get(i));
+            int numberDictrict = ((ArrayList) districts).size();
+            // get array district per province in Json file
+            JSONArray districtJsonList = (JSONArray) ((JSONObject) provinceJsonList.get(i)).get("District");
+            for (int j = 0; j < numberDictrict; j++) {
+                Object district = ((ArrayList) districts).get(j);
+                List l = new ArrayList();
+                // get array ward per district in Json file
+                JSONArray wardJsonList = (JSONArray) ((JSONObject) districtJsonList.get(j)).get("Ward");
+                // get name ward add into list
+                for (Object ward : wardJsonList) {
+                    l.add(((JSONObject) ward).get("Name"));
+                }
+                WardMap.put(district, l);
+            }
+        }
+
+        // binding data to comboBox
+        ObservableList combox1 = FXCollections.observableList(provinceList);
+        comboBoxProvince.getItems().clear();
+        comboBoxProvince.getItems().addAll(combox1);
+
+        comboBoxProvince.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !comboBoxProvince.getSelectionModel().isEmpty()) {
+                ObservableList combox2 = FXCollections.observableArrayList((List) DistrictMap.get(newValue));
+                comboBoxDistrict.getItems().clear();
+                comboBoxDistrict.getItems().addAll(combox2);
+            }
+        });
+
+        comboBoxDistrict.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !comboBoxDistrict.getSelectionModel().isEmpty()) {
+                ObservableList combox3 = FXCollections.observableArrayList((List) WardMap.get(newValue));
+                comboBoxWard.getItems().clear();
+                comboBoxWard.getItems().addAll(combox3);
+            }
+        });
     }
 
     // * setting for binding value when selected row
@@ -475,6 +503,7 @@ public class OS implements Initializable {
 
         // -- check for select Ward
         if (comboBoxWard.getSelectionModel().isEmpty()) {
+            System.out.println("fuck");
             errorText += "Ward - ";
             isValid = false;
         }
@@ -493,7 +522,7 @@ public class OS implements Initializable {
 
         if (!isValid) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Success");
+            alert.setTitle("Failed");
             alert.setHeaderText(null);
             alert.setContentText(errorText + "!");
             alert.showAndWait();
