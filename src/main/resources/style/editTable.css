@@ -106,14 +106,19 @@
 
 .toggle-button {
   -fx-prompt-text-fill: #acadb3;
-  -jfx-focus-color: #ec6fec;
-  -fx-text-fill: #1866dc;
-  -fx-font-family: "Times New Roman";
-  -fx-font-weight: Bold;
-  -fx-font-size: 18;
+  -jfx-focus-color: #8d1f8d;
+  -fx-text-fill: rgb(44, 24, 160);
+  -fx-font-family: "Arial Black";
+  -fx-font-weight: 900;
+  -fx-font-size: 20px;
   -jfx-toggle-button: #009688;
   -jfx-toggle-line-color: #77c2bb;
-  -jfx-untoggle-color: #fc9494;
+  -jfx-untoggle-color: #f77e7e;
   -jfx-untoggle-line-color: #f2e2e2;
-  -jfx-size: 10;
+  -jfx-size: 12;
+  
+}
+
+.toggle-button .text-field{
+  -fx-background-color: rgba(0, 0, 0, 0.3);
 }

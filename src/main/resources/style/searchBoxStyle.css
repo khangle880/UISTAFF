@@ -1,0 +1,13 @@
+/* ================================================================= */
+/* text field style */
+/* ================================================================= */
+
+.jfx-text-field {
+  -fx-prompt-text-fill: #acadb3;
+  -fx-text-fill: #17DBB1;
+  -fx-font-size: 20px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
+  -fx-background-color: rgba(0, 0, 0, 0.342);
+  -fx-background-radius: 5px;
+}

@@ -1,7 +1,11 @@
 package controller;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,7 +28,6 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -48,6 +52,9 @@ public class OS implements Initializable {
 
     @FXML
     private AnchorPane osPane;
+
+    @FXML
+    private JFXTextField searchBox;
 
     @FXML
     private TableView<Atm> atmTable;
@@ -100,7 +107,7 @@ public class OS implements Initializable {
     // text formatter for currency
     TextFormatter<Number> textFormatterCurrency;
 
-    private final ObservableList<Atm> data = FXCollections.observableArrayList(
+    private final ObservableList<Atm> dataOfTable = FXCollections.observableArrayList(
             new Atm("ab6632", "Atm so 3", new Address("26", "dong hoa", "Di an", "Binh duong"), 2200000L, false),
             new Atm("ab6633", "Atm so 4", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
             new Atm("ab6634", "Atm so 5", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
@@ -241,7 +248,7 @@ public class OS implements Initializable {
                         // AccessDB : update status atm when click button
                         Atm newAtm = atmTable.getItems().get(getIndex());
                         newAtm.setStatus(!item.booleanValue());
-                        data.set(getIndex(), newAtm);
+                        dataOfTable.set(getIndex(), newAtm);
 
                         // ! change to toggle button
 
@@ -257,9 +264,63 @@ public class OS implements Initializable {
 
         statusCol.setCellFactory(cellStatusFactory);
 
-        atmTable.setItems(data);
-        atmTable.getSelectionModel().select(data.get(0));
+        atmTable.setItems(dataOfTable);
+        atmTable.getSelectionModel().select(dataOfTable.get(0));
 
+        // set up for search box
+        addTextFilter(dataOfTable, searchBox, atmTable);
+
+    }
+
+    public static <T> void addTextFilter(ObservableList<Atm> allData, JFXTextField filterField, TableView<Atm> table) {
+
+        FilteredList<Atm> filteredData = new FilteredList<>(allData, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(atm -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name field in your object with filter.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (atm.getCode().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches first code.
+                } else if (atm.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches name.
+                } else if (atm.getAddress().getProvince().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches province.
+                } else if (atm.getAddress().getDistrict().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches district.
+                } else if (atm.getAddress().getWard().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches ward.
+                } else if (atm.getAddress().getCompleteStreet().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches complete street.
+                } else if (atm.getMoneyStorage().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                    // Filter matches money storage.
+                }
+
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Atm> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        table.setItems(sortedData);
     }
 
     // AccessDB : update data when add edit delete
@@ -278,7 +339,7 @@ public class OS implements Initializable {
                             newAtm.setAddress(new Address(textAddress.getText(), comboBoxWard.getValue(),
                                     comboBoxDistrict.getValue(), comboBoxProvince.getValue()));
                             newAtm.setStatus(toggleActive.isSelected());
-                            data.add(newAtm);
+                            dataOfTable.add(newAtm);
                             clearField();
                             Alert alert = new Alert(AlertType.INFORMATION);
                             alert.setTitle("Success");
@@ -305,7 +366,7 @@ public class OS implements Initializable {
                             newAtm.setAddress(new Address(textAddress.getText(), comboBoxWard.getValue(),
                                     comboBoxDistrict.getValue(), comboBoxProvince.getValue()));
                             newAtm.setStatus(toggleActive.isSelected());
-                            data.set(atmTable.getSelectionModel().getSelectedIndex(), newAtm);
+                            dataOfTable.set(atmTable.getSelectionModel().getSelectedIndex(), newAtm);
                             clearField();
                             Alert alert = new Alert(AlertType.INFORMATION);
                             alert.setTitle("Success");
@@ -324,7 +385,7 @@ public class OS implements Initializable {
                             alert.setContentText("Please select atm before deleting");
                             alert.showAndWait();
                         } else {
-                            data.remove(atmTable.getSelectionModel().getSelectedIndex());
+                            dataOfTable.remove(atmTable.getSelectionModel().getSelectedIndex());
                             Alert alert = new Alert(AlertType.INFORMATION);
                             alert.setTitle("Success");
                             alert.setHeaderText(null);

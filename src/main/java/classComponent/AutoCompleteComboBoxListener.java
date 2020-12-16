@@ -6,10 +6,8 @@ import com.jfoenix.skins.JFXComboBoxListViewSkin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.robot.Robot;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -26,7 +24,6 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
         this.comboBox = comboBox;
         sb = new StringBuilder();
         data = comboBox.getItems();
-
         cbSkin = new JFXComboBoxListViewSkin(comboBox);
         comboBox.setSkin(cbSkin);
         cbSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, (event) -> {
