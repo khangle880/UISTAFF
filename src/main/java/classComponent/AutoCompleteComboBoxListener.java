@@ -63,8 +63,6 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
                     char c = data.get(0).toString().charAt(0);
                     handle(new KeyEvent(KeyEvent.KEY_PRESSED, "character", "text",
                             KeyCode.getKeyCode(String.valueOf(Character.toUpperCase(c))), false, false, false, false));
-                } else if (comboBox.getSelectionModel().isEmpty()) {
-                    comboBox.getSelectionModel().select(0);
                 }
             } else {
                 comboBox.setValue("Not available");

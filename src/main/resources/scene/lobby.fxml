@@ -35,7 +35,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="navAtmBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#d32249" stylesheets="@../style/tabPane.css" text=" ">
+                                    <JFXButton fx:id="navAtmBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#1751ea" stylesheets="@../style/tabPane.css" text=" ">
                                        <graphic>
                                           <Label rotate="-45.0" text="ATM / POST">
                                              <font>
@@ -71,12 +71,12 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="navDataBaseBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#4b16d0" stylesheets="@../style/tabPane.css" text=" ">
+                                    <JFXButton fx:id="navDataBaseBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#1751ea" stylesheets="@../style/tabPane.css" text=" ">
                                        <graphic>
                                           <Label rotate="-45.0" text="Data base" />
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton fx:id="navReportProblemBtn" graphicTextGap="0.0" layoutX="180.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#cd172c" stylesheets="@../style/tabPane.css" text=" " GridPane.columnIndex="1">
+                                    <JFXButton fx:id="navReportProblemBtn" graphicTextGap="0.0" layoutX="180.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#2feb0e" stylesheets="@../style/tabPane.css" text=" " GridPane.columnIndex="1">
                                        <graphic>
                                           <Label rotate="-45.0" text="Report problem">
                                              <font>
@@ -85,12 +85,12 @@
                                           </Label>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton fx:id="navSupplierBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#4b16d0" stylesheets="@../style/tabPane.css" text=" " GridPane.rowIndex="1">
+                                    <JFXButton fx:id="navSupplierBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#2feb0e" stylesheets="@../style/tabPane.css" text=" " GridPane.rowIndex="1">
                                        <graphic>
                                           <Label rotate="-45.0" text="Supplier" />
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton fx:id="navAccountBtn" graphicTextGap="0.0" layoutX="55.0" layoutY="382.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#4b16d0" stylesheets="@../style/tabPane.css" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <JFXButton fx:id="navAccountBtn" graphicTextGap="0.0" layoutX="55.0" layoutY="382.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#1751ea" stylesheets="@../style/tabPane.css" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <graphic>
                                           <Label rotate="-45.0" text="Account" />
                                        </graphic>
@@ -119,7 +119,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="navMessageBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#d32249" stylesheets="@../style/tabPane.css" text=" ">
+                                    <JFXButton fx:id="navMessageBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#1eeb17" stylesheets="@../style/tabPane.css" text=" ">
                                        <graphic>
                                           <Label rotate="-45.0" text="Message">
                                              <font>
@@ -147,20 +147,14 @@
                               <GridPane prefHeight="629.0" prefWidth="509.0" rotate="45.0">
                                  <columnConstraints>
                                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="navPeriodicReportBtn" graphicTextGap="0.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#4b16d0" stylesheets="@../style/tabPane.css" text=" ">
+                                    <JFXButton fx:id="navReportBtn" graphicTextGap="0.0" layoutX="180.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#11f220" stylesheets="@../style/tabPane.css" text=" ">
                                        <graphic>
-                                          <Label rotate="-45.0" text="Periodic reports" />
-                                       </graphic>
-                                    </JFXButton>
-                                    <JFXButton fx:id="navUnusualReportBtn" graphicTextGap="0.0" layoutX="180.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" ripplerFill="#cd172c" stylesheets="@../style/tabPane.css" text=" " GridPane.columnIndex="1">
-                                       <graphic>
-                                          <Label rotate="-45.0" text="Unusual reports">
+                                          <Label rotate="-45.0" text="Reports">
                                              <font>
                                                 <Font name="Imprint MT Shadow" size="20.0" />
                                              </font>

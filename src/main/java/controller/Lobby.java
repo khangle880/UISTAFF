@@ -30,15 +30,11 @@ public class Lobby implements Initializable {
     private JFXButton navMessageBtn;
 
     @FXML
-    private JFXButton navPeriodicReportBtn;
-
-    @FXML
-    private JFXButton navUnusualReportBtn;
+    private JFXButton navReportBtn;
 
     public ObservableList<JFXButton> fetchAllButtons() {
         ObservableList<JFXButton> allButtons = FXCollections.observableArrayList(navAtmBtn, navDataBaseBtn,
-                navReportProblemBtn, navSupplierBtn, navAccountBtn, navMessageBtn, navPeriodicReportBtn,
-                navUnusualReportBtn);
+                navReportProblemBtn, navSupplierBtn, navAccountBtn, navMessageBtn, navReportBtn);
         return allButtons;
     }
 

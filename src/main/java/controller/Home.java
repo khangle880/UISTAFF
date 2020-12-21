@@ -58,7 +58,7 @@ public class Home implements Initializable {
         loadFXML(getClass().getResource("/scene/lobby.fxml"), insLobby);
         ObservableList<JFXButton> lobbyButtons = insLobby.fetchAllButtons();
         sideSceneFromLobby(lobbyButtons);
-        
+
     }
 
     private void sideSceneFromNavBar() {
@@ -126,23 +126,20 @@ public class Home implements Initializable {
                     break;
                 case "navAccountBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        loadFXML(getClass().getResource("/scene/accountManagement.fxml"), new AccountManagement());
                     });
                     break;
                 case "navMessageBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        // loadFXML(getClass().getResource(""), new ;s
                     });
                     break;
-                case "navPeriodicReportBtn":
+                case "navReportBtn":
                     button.setOnAction(actionEvent -> {
                         // loadFXML(getClass().getResource(""), new ;
                     });
                     break;
-                case "navUnusualReportBtn":
-                    button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
-                    });
+                default:
                     break;
             }
         }

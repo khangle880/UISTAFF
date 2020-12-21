@@ -90,6 +90,7 @@ public class test extends Application {
         ColumnConstraints leftCol = new ColumnConstraints();
         leftCol.setHgrow(Priority.NEVER);
         leftCol.setHalignment(HPos.RIGHT);
+
         ColumnConstraints rightCol = new ColumnConstraints();
         rightCol.setHgrow(Priority.SOMETIMES);
         grid.getColumnConstraints().addAll(leftCol, rightCol);

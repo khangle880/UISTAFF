@@ -1,130 +1,68 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.event.*;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXScrollPane;
+import com.jfoenix.svg.SVGGlyph;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+ 
 public class Test2 extends Application {
-
-    static List provinceList = new ArrayList();
-    static final Map DistrictMap = new HashMap();
-    static final Map WardMap = new HashMap();
-
+    @Override
+    public void start(Stage stage) {
+        JFXListView<Label> list = new JFXListView<>();
+        for (int i = 0; i < 100; i++) {
+            list.getItems().add(new Label("Item " + i));
+        }
+        list.getStyleClass().add("mylistview");
+        list.setMaxHeight(3400);
+ 
+ 
+        StackPane container = new StackPane(list);
+        container.setPadding(new Insets(24));
+ 
+        JFXScrollPane pane = new JFXScrollPane();
+        pane.setContent(container);
+ 
+        JFXButton button = new JFXButton("");
+        SVGGlyph arrow = new SVGGlyph(0,
+            "FULLSCREEN",
+            "M402.746 877.254l-320-320c-24.994-24.992-24.994-65.516 0-90.51l320-320c24.994-24.992 65.516-24.992 90.51 0 24.994 24.994 "
+            + "24.994 65.516 0 90.51l-210.746 210.746h613.49c35.346 0 64 28.654 64 64s-28.654 64-64 64h-613.49l210.746 210.746c12.496 "
+            + "12.496 18.744 28.876 18.744 45.254s-6.248 32.758-18.744 45.254c-24.994 24.994-65.516 24.994-90.51 0z",
+            Color.WHITE);
+        arrow.setSize(20, 16);
+        button.setGraphic(arrow);
+        button.setRipplerFill(Color.WHITE);
+        pane.getTopBar().getChildren().add(button);
+ 
+        Label title = new Label("Title");
+        pane.getBottomBar().getChildren().add(title);
+        title.setStyle("-fx-text-fill:WHITE; -fx-font-size: 40;");
+        JFXScrollPane.smoothScrolling((ScrollPane) pane.getChildren().get(0));
+ 
+        StackPane.setMargin(title, new Insets(0, 0, 0, 80));
+        StackPane.setAlignment(title, Pos.CENTER_LEFT);
+        StackPane.setAlignment(button, Pos.CENTER_LEFT);
+        StackPane.setMargin(button, new Insets(0, 0, 0, 20));
+ 
+ 
+        final Scene scene = new Scene(pane, 600, 600, Color.WHITE);
+        stage.setTitle("JFX ListView Demo ");
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
     public static void main(String[] args) {
         launch(args);
     }
-
-    @Override
-    public void start(Stage primaryStage) {
-        JSONParser jsonParser = new JSONParser();
-
-        try (FileReader reader = new FileReader("src/main/java/application/data.json")) {
-            // Read JSON file
-            Object obj = jsonParser.parse(reader);
-            JSONObject addrDict = (JSONObject) obj;
-
-            initDataEnableBindingComboBox(addrDict);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        ObservableList combox1 = FXCollections.observableList(provinceList);
-        HBox box = new HBox(20);
-        box.setPadding(new Insets(20, 20, 20, 20));
-        ComboBox cb1 = new ComboBox();
-        final ComboBox cb2 = new ComboBox();
-        final ComboBox cb3 = new ComboBox();
-        cb1.setItems(combox1);
-        cb1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            ObservableList combox2 = FXCollections.observableArrayList((List) DistrictMap.get(newValue));
-            cb2.setItems(combox2);
-        });
-
-        cb2.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (newValue != null) {
-                ObservableList combox3 = FXCollections.observableArrayList((List) WardMap.get(newValue));
-                cb3.setItems(combox3);
-            }
-            
-        });
-        TextArea ta = new TextArea();
-            ta.setText("1234567890");
-            ta.positionCaret(1);
-        box.getChildren().addAll( ta);
-        Scene scene = new Scene(box, 300, 250);
-
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-    }
-
-    private static void initDataEnableBindingComboBox(JSONObject addrDict) {
-
-        // ---- convert json object to map object with only name string
-
-        // get array province in Json file
-        JSONArray provinceJsonList = (JSONArray) addrDict.get("Province/City");
-        // get name province add into list
-        for (Object province : provinceJsonList) {
-            provinceList.add(((JSONObject) province).get("Name"));
-        }
-
-        for (int i = 0; i < provinceList.size(); i++) {
-            List l = new ArrayList();
-            // get array district per province in Json file
-            JSONArray districtJsonList = (JSONArray) ((JSONObject) provinceJsonList.get(i)).get("District");
-            // get name district add into list
-            for (Object district : districtJsonList) {
-                l.add(((JSONObject) district).get("Name"));
-            }
-            DistrictMap.put(provinceList.get(i), l);
-        }
-
-        for (int i = 0; i < provinceList.size(); i++) {
-            Object districts = DistrictMap.get(provinceList.get(i));
-            int numberDictrict = ((ArrayList) districts).size();
-            // get array district per province in Json file
-            JSONArray districtJsonList = (JSONArray) ((JSONObject) provinceJsonList.get(i)).get("District");
-            for (int j = 0; j < numberDictrict; j++) {
-                Object district = ((ArrayList) districts).get(j);
-                List l = new ArrayList();
-                // get array ward per district in Json file
-                JSONArray wardJsonList = (JSONArray) ((JSONObject) districtJsonList.get(j)).get("Ward");
-                // get name ward add into list
-                for (Object ward : wardJsonList) {
-                    l.add(((JSONObject) ward).get("Name"));
-                }
-                WardMap.put(district, l);
-            }
-        }
-
-    }
-
+ 
+ 
 }

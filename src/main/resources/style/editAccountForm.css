@@ -1,0 +1,157 @@
+/* ================================================================= */
+/* combo box style */
+/* ================================================================= */
+
+.jfx-grid-pane {
+  -fx-background-color: rgba(191, 196, 199, 0.3);
+  -fx-font-size: 16px;
+}
+
+.jfx-combo-box {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #4e65eb;
+  -fx-font-size: 16px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
+}
+
+.jfx-combo-box .text-field {
+  -fx-text-fill: #000000;
+}
+/* ================================================================= */
+/* combo box list view style */
+
+.jfx-combo-box .list-cell:filled:selected .text,
+.choice-box .list-cell:filled:selected .text {
+  -fx-fill: #335ed3;
+}
+
+.jfx-combo-box .list-cell {
+  -fx-background: white;
+  -fx-background-color: transparent;
+  -fx-text-fill: -fx-text-base-color;
+  -fx-padding: 3 0 2 7;
+  -fx-cell-size: 1.66667em;
+}
+
+.jfx-combo-box .arrow,
+.choice-box .arrow {
+  -fx-background-color: rgb(33, 45, 110);
+}
+
+/* ================================================================= */
+/* combo box scroll bar style */
+
+.jfx-combo-box .scroll-bar:vertical *.increment-button,
+.jfx-combo-box .scroll-bar:vertical *.decrement-button {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+}
+
+.jfx-combo-box .scroll-bar:vertical *.increment-arrow,
+.jfx-combo-box .scroll-bar:vertical *.decrement-arrow {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-shape: null;
+}
+
+.jfx-combo-box .scroll-bar:horizontal *.increment-button,
+.jfx-combo-box .scroll-bar:horizontal *.decrement-button {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+}
+
+.jfx-combo-box .scroll-bar:horizontal *.increment-arrow,
+.jfx-combo-box .scroll-bar:horizontal *.decrement-arrow {
+  -fx-background-color: null;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-shape: null;
+}
+
+/* ================================================================= */
+/* date time style */
+/* ================================================================= */
+
+.jfx-date-Picker {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #4e65eb;
+  -fx-text-fill: #000000;
+  -fx-font-size: 16px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* text field style */
+/* ================================================================= */
+
+.jfx-text-field {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #4e65eb;
+  -fx-text-fill: #000000;
+  -fx-font-size: 16px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* label style */
+/* ================================================================= */
+
+.label {
+  -fx-font-size: 16px;
+  -fx-font-family: "Times New Roman";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* toggle button style */
+/* ================================================================= */
+
+.toggle-button {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #8d1f8d;
+  -fx-text-fill: rgb(44, 24, 160);
+  -fx-font-family: "Arial Black";
+  -fx-font-size: 12px;
+  -jfx-toggle-button: #009646;
+  -jfx-toggle-line-color: #77c2a570;
+  -jfx-untoggle-color: #ee3939;
+  -jfx-untoggle-line-color: rgba(191, 196, 199, 0.5);
+  -jfx-size: 8;
+}
+
+.toggle-button .text-field {
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================================= */
+/* toggle button style */
+/* ================================================================= */
+
+.hBox {
+  -fx-background-color: transparent;
+  -fx-border-radius: 0 10 0 0;
+  -fx-background-radius: 0 10 0 0;
+}
+
+.hBox .jfx-button{
+  -fx-font-family: "Lucida Bright";
+  -fx-font-size: 18px;
+  -fx-text-fill: black;
+}
+
+.hBox .jfx-button:pressed {
+  -fx-font-family: "Lucida Bright";
+  -fx-font-size: 16px;
+  -fx-text-fill: white;
+}
+

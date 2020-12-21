@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,16 +11,17 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -36,6 +39,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.controls.base.IFXValidatableControl;
+import com.jfoenix.validation.NumberValidator;
+import com.jfoenix.validation.RegexValidator;
+import com.jfoenix.validation.RequiredFieldValidator;
+import com.jfoenix.validation.base.ValidatorBase;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -60,7 +68,7 @@ public class OS implements Initializable {
     private TableView<Atm> atmTable;
 
     @FXML
-    private TableColumn<Atm, String> codeCol;
+    private TableColumn<Atm, String> idCol;
 
     @FXML
     private TableColumn<Atm, String> nameCol;
@@ -78,7 +86,10 @@ public class OS implements Initializable {
     private AnchorPane bottomBar;
 
     @FXML
-    private JFXTextField textCode;
+    private VBox editForm;
+
+    @FXML
+    private JFXTextField textID;
 
     @FXML
     private JFXTextField textName;
@@ -107,6 +118,11 @@ public class OS implements Initializable {
     // text formatter for currency
     TextFormatter<Number> textFormatterCurrency;
 
+    // ---- Variable global
+    // variable check account is valid
+    private boolean newInfoAccountIsValid;
+    private String AccountErrorText;
+
     private final ObservableList<Atm> dataOfTable = FXCollections.observableArrayList(
             new Atm("ab6632", "Atm so 3", new Address("26", "dong hoa", "Di an", "Binh duong"), 2200000L, false),
             new Atm("ab6633", "Atm so 4", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
@@ -117,6 +133,7 @@ public class OS implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // setup bottomBar
         BottomBar insBottomBar = new BottomBar();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/bottomBar.fxml"));
@@ -145,6 +162,7 @@ public class OS implements Initializable {
         setValueFromTableToTextField();
         initTable();
         bindingDataForComboBox();
+        initValidatorForEditForm();
 
     }
 
@@ -168,9 +186,9 @@ public class OS implements Initializable {
 
     public void initTable() {
 
-        // CODE COL SETTING
-        codeCol.setPrefWidth(100);
-        codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+        // ID COL SETTING
+        idCol.setPrefWidth(100);
+        idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
         // NAME COL SETTING
         nameCol.setPrefWidth(150);
@@ -236,12 +254,25 @@ public class OS implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
+                        String STANDARD_BUTTON_STYLE;
+                        String HOVERED_BUTTON_STYLE;
                         setGraphic(btn);
                         setText(null);
-                        if (item)
+                        if (item) {
                             btn.setText("Active");
-                        else
+                            STANDARD_BUTTON_STYLE = "-fx-background-color: transparent;";
+                            HOVERED_BUTTON_STYLE = "-fx-background-color: linear-gradient(to bottom, #3884d1, #0c75d6, #0064d8, #0051d8, #233ad3);";
+                        } else {
                             btn.setText("Pause");
+                            STANDARD_BUTTON_STYLE = "-fx-background-color: transparent;";
+                            HOVERED_BUTTON_STYLE = "-fx-background-color: linear-gradient(to bottom, #787b7e, #808486, #898d8d, #939695, #9e9f9d);";
+                        }
+
+                        // set style hover of btn
+                        btn.styleProperty()
+                                .bind(Bindings.when(btn.hoverProperty())
+                                        .then(new SimpleStringProperty(HOVERED_BUTTON_STYLE))
+                                        .otherwise(new SimpleStringProperty(STANDARD_BUTTON_STYLE)));
                     }
 
                     btn.setOnAction(event -> {
@@ -249,8 +280,6 @@ public class OS implements Initializable {
                         Atm newAtm = atmTable.getItems().get(getIndex());
                         newAtm.setStatus(!item.booleanValue());
                         dataOfTable.set(getIndex(), newAtm);
-
-                        // ! change to toggle button
 
                         // autoselect row when click button
                         atmTable.getSelectionModel().clearSelection();
@@ -286,28 +315,27 @@ public class OS implements Initializable {
 
                 // Compare first name and last name field in your object with filter.
                 String lowerCaseFilter = newValue.toLowerCase();
-
-                if (atm.getCode().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                    // Filter matches first code.
-                } else if (atm.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                // Filter matches first ID.
+                if (atm.getID().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches name.
-                } else if (atm.getAddress().getProvince().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (atm.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches province.
-                } else if (atm.getAddress().getDistrict().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (atm.getAddress().getProvince().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches district.
-                } else if (atm.getAddress().getWard().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (atm.getAddress().getDistrict().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches ward.
-                } else if (atm.getAddress().getCompleteStreet().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (atm.getAddress().getWard().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches complete street.
-                } else if (atm.getMoneyStorage().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (atm.getAddress().getCompleteStreet().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches money storage.
+                } else if (atm.getMoneyStorage().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
                 }
 
                 return false; // Does not match.
@@ -332,7 +360,7 @@ public class OS implements Initializable {
                     button.setOnAction(actionEvent -> {
                         if (checkForNewData()) {
                             Atm newAtm = new Atm();
-                            newAtm.setCode(textCode.getText());
+                            newAtm.setID(textID.getText());
                             newAtm.setName(textName.getText());
                             newAtm.setMoneyStorage(Long.parseLong(
                                     textMoneyStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
@@ -359,7 +387,7 @@ public class OS implements Initializable {
                             alert.showAndWait();
                         } else if (checkForNewData()) {
                             Atm newAtm = new Atm();
-                            newAtm.setCode(textCode.getText());
+                            newAtm.setID(textID.getText());
                             newAtm.setName(textName.getText());
                             newAtm.setMoneyStorage(Long.parseLong(
                                     textMoneyStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
@@ -420,9 +448,6 @@ public class OS implements Initializable {
             e.printStackTrace();
         }
 
-        // comboBoxWard.getItems().addAll("Dong hoa", "Item 2", "Item 3");
-        // comboBoxDistrict.getItems().addAll("Di an", "Item 2", "Item 3");
-        // comboBoxProvince.getItems().addAll("Binh duong", "Item 2", "Item 3");
     }
 
     // parse address dictionary data from json
@@ -482,6 +507,7 @@ public class OS implements Initializable {
             if (newValue != null && !comboBoxProvince.getSelectionModel().isEmpty()) {
                 ObservableList combox2 = FXCollections.observableArrayList((List) DistrictMap.get(newValue));
                 comboBoxDistrict.getItems().clear();
+                comboBoxWard.getItems().clear();
                 comboBoxDistrict.getItems().addAll(combox2);
             }
         });
@@ -501,7 +527,7 @@ public class OS implements Initializable {
         atmTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Atm atm = atmTable.getItems().get(atmTable.getSelectionModel().getSelectedIndex());
-                textCode.setText(atm.getCode());
+                textID.setText(atm.getID());
                 textName.setText(atm.getName());
                 textMoneyStorage.setText(atm.getMoneyStorage().toString());
                 textAddress.setText(atm.getAddress().getCompleteStreet());
@@ -515,19 +541,17 @@ public class OS implements Initializable {
 
     @FXML
     void checkValueMoneyText(KeyEvent event) {
-
         // ---- force the textField money storage to be numeric only
         if (!textMoneyStorage.getText().matches("\\d*")) {
             textMoneyStorage.setText(textMoneyStorage.getText().replaceAll("[^\\d]", ""));
         }
-
     }
 
     // ---- clear data when action for fillTable
     void clearField() {
 
         atmTable.getSelectionModel().clearSelection();
-        textCode.clear();
+        textID.clear();
         textName.clear();
         textMoneyStorage.setText("0");
         textAddress.clear();
@@ -537,58 +561,97 @@ public class OS implements Initializable {
         toggleActive.setSelected(false);
     }
 
+    // validator for comboxBox selection
+    private void setValidatorSelectedForCbb(JFXComboBox<String> cbb) {
+        ValidatorBase validatorSelected = new ValidatorBase() {
+            @Override
+            protected void eval() {
+                setMessage("ComboBox is not selected!");
+                if (cbb.getSelectionModel().isEmpty()) {
+                    hasErrors.set(true);
+                } else
+                    hasErrors.set(false);
+            }
+        };
+
+        cbb.getValidators().add(validatorSelected);
+    }
+
+    // initialize validator for nodes in base info form
+    private void initValidatorForEditForm() {
+        // create validators
+        RequiredFieldValidator validatorText = new RequiredFieldValidator();
+        NumberValidator validatorNumber = new NumberValidator();
+        RegexValidator validatorEmail = new RegexValidator();
+        validatorEmail.setRegexPattern(
+                "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        // set text for validators
+        validatorText.setMessage("No Input Given!");
+        validatorNumber.setMessage("Only Numbers are supported!");
+        validatorEmail.setMessage("Email is not valid!");
+
+        // set validator for Nodes
+        textID.getValidators().add(validatorText);
+        textName.getValidators().add(validatorText);
+        textMoneyStorage.getValidators().add(validatorText);
+        textAddress.getValidators().add(validatorText);
+        comboBoxWard.getValidators().add(validatorText);
+        setValidatorSelectedForCbb(comboBoxWard);
+        comboBoxDistrict.getValidators().add(validatorText);
+        setValidatorSelectedForCbb(comboBoxDistrict);
+        comboBoxProvince.getValidators().add(validatorText);
+        setValidatorSelectedForCbb(comboBoxProvince);
+
+        // set event exit focus for Nodes
+        addListenerNotFocus(textID);
+        addListenerNotFocus(textName);
+        addListenerNotFocus(textMoneyStorage);
+        addListenerNotFocus(textAddress);
+        addListenerNotFocus(comboBoxWard);
+        addListenerNotFocus(comboBoxDistrict);
+        addListenerNotFocus(comboBoxProvince);
+    }
+
+    // Create addListener for event exit focus a node
+    private void addListenerNotFocus(Node node) {
+        node.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    newInfoAccountIsValid = (((IFXValidatableControl) node).validate() == false ? false
+                            : newInfoAccountIsValid);
+                }
+            }
+        });
+    }
+
+    // travel through the nodes in editForm
+    private void travelThoughNodesInEditForm() {
+        // travel through the nodes of edit form
+        ObservableList<Node> childrenNodeOfEditForm = editForm.getChildren();
+        for (Node node : childrenNodeOfEditForm) {
+            node.requestFocus();
+        }
+        editForm.requestFocus();
+    }
+
     // ---- check new data is valid
-    boolean checkForNewData() {
+    private boolean checkForNewData() {
         // todo: check for primary key
+        newInfoAccountIsValid = true;
+        AccountErrorText = new String("New information of account not valid");
+        travelThoughNodesInEditForm();
 
-        boolean isValid = true;
-        String errorText = new String("You can not empty fields : ");
-
-        // -- check for text code
-        if (textCode.getText().isEmpty()) {
-            errorText += "Code - ";
-            isValid = false;
-        }
-
-        // -- check for text name
-        if (textName.getText().isEmpty()) {
-            errorText += "Name - ";
-            isValid = false;
-        }
-
-        // -- check for text address
-        if (textAddress.getText().isEmpty()) {
-            errorText += "Address - ";
-            isValid = false;
-        }
-
-        // -- check for select Ward
-        if (comboBoxWard.getSelectionModel().isEmpty()) {
-            System.out.println("fuck");
-            errorText += "Ward - ";
-            isValid = false;
-        }
-
-        // -- check for select district
-        if (comboBoxDistrict.getSelectionModel().isEmpty()) {
-            errorText += "District - ";
-            isValid = false;
-        }
-
-        // -- check for text address
-        if (comboBoxProvince.getSelectionModel().isEmpty()) {
-            errorText += "Province - ";
-            isValid = false;
-        }
-
-        if (!isValid) {
+        if (!newInfoAccountIsValid) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Failed");
             alert.setHeaderText(null);
-            alert.setContentText(errorText + "!");
+            alert.setContentText(AccountErrorText + "!");
             alert.showAndWait();
         }
 
-        return isValid;
+        return newInfoAccountIsValid;
     }
 }

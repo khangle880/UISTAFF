@@ -6,22 +6,22 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Atm {
-    private SimpleStringProperty code;
+    private SimpleStringProperty ID;
     private SimpleStringProperty name;
     private SimpleObjectProperty<Address> address;
     private SimpleLongProperty moneyStorage;
     private SimpleBooleanProperty status;
 
     public Atm() {
-        this.code = new SimpleStringProperty();
+        this.ID = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
         this.address = new SimpleObjectProperty<Address>();
         this.moneyStorage = new SimpleLongProperty();
         this.status = new SimpleBooleanProperty();
     };
 
-    public Atm(String code, String name, Address address, Long moneyStorage, Boolean status) {
-        this.code = new SimpleStringProperty(code);
+    public Atm(String ID, String name, Address address, Long moneyStorage, Boolean status) {
+        this.ID = new SimpleStringProperty(ID);
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleObjectProperty<Address>(address);
         this.moneyStorage = new SimpleLongProperty(moneyStorage);
@@ -76,16 +76,16 @@ public class Atm {
         this.name.set(name);
     }
 
-    public SimpleStringProperty getCodeProperty() {
-        return code;
+    public SimpleStringProperty getIDProperty() {
+        return ID;
     }
 
-    public String getCode() {
-        return code.get();
+    public String getID() {
+        return ID.get();
     }
 
-    public void setCode(String code) {
-        this.code.set(code);
+    public void setID(String ID) {
+        this.ID.set(ID);
     }
 
 }
