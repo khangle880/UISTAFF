@@ -535,6 +535,13 @@ public class OS implements Initializable {
                 comboBoxDistrict.getSelectionModel().select((atm.getAddress().getDistrict().toString()));
                 comboBoxProvince.getSelectionModel().select((atm.getAddress().getProvince().toString()));
                 toggleActive.setSelected(atm.getStatus());
+                textID.resetValidation();
+                textName.resetValidation();
+                textMoneyStorage.resetValidation();
+                textAddress.resetValidation();
+                comboBoxWard.resetValidation();
+                comboBoxDistrict.resetValidation();
+                comboBoxProvince.resetValidation();
             }
         });
     }

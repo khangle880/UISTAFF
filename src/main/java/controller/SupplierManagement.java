@@ -20,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,7 +44,7 @@ import classForDB.CustomerAccount;
 import classForDB.EmployeeAccount;
 import classForDB.OrganizationAccount;
 
-public class AccountManagement implements Initializable {
+public class SupplierManagement implements Initializable {
 
     @FXML
     private AnchorPane accountManagementPane;
@@ -52,42 +53,39 @@ public class AccountManagement implements Initializable {
     private JFXTextField searchBox;
 
     @FXML
-    private TableView<BaseAccount> accountTable;
+    private JFXButton editBtn;
 
     @FXML
-    private TableColumn<BaseAccount, String> idCol;
+    private TableView<OrganizationAccount> accountTable;
 
     @FXML
-    private TableColumn<BaseAccount, String> nameCol;
+    private TableColumn<OrganizationAccount, String> idCol;
 
     @FXML
-    private TableColumn<BaseAccount, String> phoneNumberCol;
+    private TableColumn<OrganizationAccount, String> nameCol;
 
     @FXML
-    private TableColumn<BaseAccount, String> typeCol;
+    private TableColumn<OrganizationAccount, String> phoneNumberCol;
 
     @FXML
-    private TableColumn<BaseAccount, Address> addressCol;
+    private TableColumn<OrganizationAccount, Address> addressCol;
 
     @FXML
-    private TableColumn<BaseAccount, LocalDateTime> joinTimeCol;
+    private TableColumn<OrganizationAccount, LocalDateTime> joinTimeCol;
 
     @FXML
-    private TableColumn<BaseAccount, Long> balanceCol;
+    private TableColumn<OrganizationAccount, Long> balanceCol;
 
     @FXML
-    private TableColumn<BaseAccount, Boolean> statusCol;
+    private TableColumn<OrganizationAccount, String> ratingCol;
 
     @FXML
-    private AnchorPane bottomBar;
-
-    // Get all buttons from ctrlBottomBar
-    ObservableList<JFXButton> bottomBarButtons;
+    private TableColumn<OrganizationAccount, Boolean> statusCol;
 
     // set formatter for datetime fields in table
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
-    private final ObservableList<BaseAccount> dataOfTable = FXCollections.observableArrayList(
+    private final ObservableList<BaseAccount> dataOrigin = FXCollections.observableArrayList(
             new OrganizationAccount("#445", "Kristina Hoppe", "McLaughlin@gmail.com", "0975845628", "Organization",
                     new Address("Sallie Tunnel", "Eldridge Greens", "Connecticut", "Greece"),
                     LocalDateTime.of(2019, 03, 4, 14, 33, 48, 12), 10000000L, true, "lazadaPro",
@@ -109,30 +107,42 @@ public class AccountManagement implements Initializable {
                     new Address("Herman Drive", "Strosin Coves", "Kentucky", "Cyprus"),
                     LocalDateTime.of(2019, 03, 12, 14, 33, 48, 12), 10000000L, true));
 
+    private final ObservableList<OrganizationAccount> dataOfTable = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // setup bottomBar
-        BottomBar insBottomBar = new BottomBar();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/bottomBar.fxml"));
-            loader.setController(insBottomBar);
-            bottomBar.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bottomBarButtons = insBottomBar.fetchAllButtons();
-
-        // set text for title
-        insBottomBar.fetchLabelTitle().get(0).setText("Account Management");
-
-        // set handler click for buttons in bottom bar
-        setHandleForClickButtonInBottomBar();
-
+        initDataFormDataOrigin();
         // init
         initTable();
         setEventDoubleClickOnTable(accountTable);
 
+        // handle click edit button
+        editBtn.setOnAction(e -> handleEditBtnClick());
+
+    }
+
+    private void handleEditBtnClick() {
+        if (accountTable.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select account before editing");
+            alert.showAndWait();
+        } else {
+            OrganizationAccount newAccount = editAccount(accountTable.getSelectionModel().getSelectedItem());
+            if (newAccount != null) {
+                dataOfTable.set(accountTable.getSelectionModel().getSelectedIndex(), newAccount);
+            }
+        }
+    }
+
+    private void initDataFormDataOrigin() {
+        for (BaseAccount account : dataOrigin) {
+            if (account.getTypeAccount() == "Organization" && account instanceof OrganizationAccount) {
+                dataOfTable.add((OrganizationAccount) account);
+            }
+        }
     }
 
     private void initTable() {
@@ -146,14 +156,14 @@ public class AccountManagement implements Initializable {
         phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
         // TYPE COL SETTING
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("typeAccount"));
+        ratingCol.setCellValueFactory(new PropertyValueFactory<>("typeAccount"));
 
         // ADDRESS COL SETTING
-        addressCol.setCellValueFactory(new PropertyValueFactory<BaseAccount, Address>("address"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<OrganizationAccount, Address>("address"));
 
         // ---- setting the cell factory for the address column
-        Callback<TableColumn<BaseAccount, Address>, TableCell<BaseAccount, Address>> cellAddressFactory = param -> {
-            final TableCell<BaseAccount, Address> addressCell = new TableCell<BaseAccount, Address>() {
+        Callback<TableColumn<OrganizationAccount, Address>, TableCell<OrganizationAccount, Address>> cellAddressFactory = param -> {
+            final TableCell<OrganizationAccount, Address> addressCell = new TableCell<OrganizationAccount, Address>() {
                 @Override
                 public void updateItem(Address item, boolean empty) {
                     super.updateItem(item, empty);
@@ -171,8 +181,8 @@ public class AccountManagement implements Initializable {
         addressCol.setCellFactory(cellAddressFactory);
 
         // JOIN TIME COL SETTING
-        joinTimeCol.setCellValueFactory(new PropertyValueFactory<BaseAccount, LocalDateTime>("JoinTime"));
-        joinTimeCol.setCellFactory(col -> new TableCell<BaseAccount, LocalDateTime>() {
+        joinTimeCol.setCellValueFactory(new PropertyValueFactory<OrganizationAccount, LocalDateTime>("JoinTime"));
+        joinTimeCol.setCellFactory(col -> new TableCell<OrganizationAccount, LocalDateTime>() {
             @Override
             protected void updateItem(LocalDateTime item, boolean empty) {
                 super.updateItem(item, empty);
@@ -188,7 +198,7 @@ public class AccountManagement implements Initializable {
 
         // ---- setting the money storage column
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-        balanceCol.setCellFactory(ms -> new TableCell<BaseAccount, Long>() {
+        balanceCol.setCellFactory(ms -> new TableCell<OrganizationAccount, Long>() {
 
             @Override
             protected void updateItem(Long price, boolean empty) {
@@ -205,9 +215,9 @@ public class AccountManagement implements Initializable {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // ---- setting the cell factory for the status column
-        Callback<TableColumn<BaseAccount, Boolean>, TableCell<BaseAccount, Boolean>> cellStatusFactory = param -> {
+        Callback<TableColumn<OrganizationAccount, Boolean>, TableCell<OrganizationAccount, Boolean>> cellStatusFactory = param -> {
 
-            final TableCell<BaseAccount, Boolean> cell = new TableCell<BaseAccount, Boolean>() {
+            final TableCell<OrganizationAccount, Boolean> cell = new TableCell<OrganizationAccount, Boolean>() {
 
                 final JFXButton btn = new JFXButton("");
 
@@ -242,7 +252,7 @@ public class AccountManagement implements Initializable {
 
                     btn.setOnAction(event -> {
                         // AccessDB : update status account when click button
-                        BaseAccount newAccount = accountTable.getItems().get(getIndex());
+                        OrganizationAccount newAccount = accountTable.getItems().get(getIndex());
                         newAccount.setStatus(!item.booleanValue());
                         dataOfTable.set(getIndex(), newAccount);
 
@@ -265,12 +275,12 @@ public class AccountManagement implements Initializable {
         addTextFilter(dataOfTable, searchBox, accountTable);
     }
 
-    private void setEventDoubleClickOnTable(TableView<BaseAccount> tableView) {
+    private void setEventDoubleClickOnTable(TableView<OrganizationAccount> tableView) {
         tableView.setRowFactory(tv -> {
-            TableRow<BaseAccount> row = new TableRow<>();
+            TableRow<OrganizationAccount> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    BaseAccount rowData = row.getItem();
+                    OrganizationAccount rowData = row.getItem();
                     seeMoreInfoAccount(rowData);
                 }
             });
@@ -278,7 +288,7 @@ public class AccountManagement implements Initializable {
         });
     }
 
-    private void seeMoreInfoAccount(BaseAccount account) {
+    private void seeMoreInfoAccount(OrganizationAccount account) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/seeMoreInfoAccount.fxml"));
         seeMoreInfoAccount seeMoreInfoAccountCtrl = new seeMoreInfoAccount();
         loader.setController(seeMoreInfoAccountCtrl);
@@ -306,9 +316,9 @@ public class AccountManagement implements Initializable {
 
     }
 
-    private void addTextFilter(ObservableList<BaseAccount> allData, JFXTextField filterField,
-            TableView<BaseAccount> table) {
-        FilteredList<BaseAccount> filteredData = new FilteredList<>(allData, p -> true);
+    private void addTextFilter(ObservableList<OrganizationAccount> allData, JFXTextField filterField,
+            TableView<OrganizationAccount> table) {
+        FilteredList<OrganizationAccount> filteredData = new FilteredList<>(allData, p -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -331,7 +341,7 @@ public class AccountManagement implements Initializable {
                 } else if (account.getPhoneNumber().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches TYPE ACCOUNT.
-                } else if (account.getTypeAccount().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (account.getRating().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                     // Filter matches province.
                 } else if (account.getAddress().getProvince().toLowerCase().indexOf(lowerCaseFilter) != -1) {
@@ -349,7 +359,7 @@ public class AccountManagement implements Initializable {
         });
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<BaseAccount> sortedData = new SortedList<>(filteredData);
+        SortedList<OrganizationAccount> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(table.comparatorProperty());
@@ -357,71 +367,18 @@ public class AccountManagement implements Initializable {
         table.setItems(sortedData);
     }
 
-    private void setHandleForClickButtonInBottomBar() {
-        for (JFXButton button : bottomBarButtons) {
-            switch (button.getId()) {
-                case "addBtn":
-                    button.setOnAction(actionEvent -> {
-                        BaseAccount newAccount = editAccount(new BaseAccount());
-                        if (newAccount != null) {
-                            dataOfTable.add(newAccount);
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            alert.setTitle("Success");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Successfully added an Account");
-                            alert.showAndWait();
-                        }
-                    });
-                    break;
-                case "editBtn":
-                    button.setOnAction(actionEvent -> {
-                        if (accountTable.getSelectionModel().isEmpty()) {
-                            Alert alert = new Alert(AlertType.WARNING);
-                            alert.setTitle("Failed");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Please select account before editing");
-                            alert.showAndWait();
-                        } else {
-                            BaseAccount newAccount = editAccount(accountTable.getSelectionModel().getSelectedItem());
-                            if (newAccount != null) {
-                                dataOfTable.set(accountTable.getSelectionModel().getSelectedIndex(), newAccount);
-                            }
-                        }
-                    });
-                    break;
-                case "deleteBtn":
-                    button.setOnAction(actionEvent -> {
-                        if (accountTable.getSelectionModel().isEmpty()) {
-                            Alert alert = new Alert(AlertType.WARNING);
-                            alert.setTitle("Failed");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Please select account before deleting");
-                            alert.showAndWait();
-                        } else {
-                            dataOfTable.remove(accountTable.getSelectionModel().getSelectedIndex());
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            alert.setTitle("Success");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Successfully deleted an Account");
-                            alert.showAndWait();
-                        }
-                    });
-            }
-        }
-    }
+    private OrganizationAccount editAccount(OrganizationAccount account) {
 
-    private BaseAccount editAccount(BaseAccount account) {
-
-        BaseAccount newAccount = new BaseAccount();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/editAccountForm.fxml"));
-        editAccountForm editAccountFormCtrl = new editAccountForm();
-        loader.setController(editAccountFormCtrl);
+        OrganizationAccount newAccount = new OrganizationAccount();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/editAddInfoOrganizationForm.fxml"));
+        editOrganizationAccountForm editOrganizationAccountFormCtrl = new editOrganizationAccountForm();
+        loader.setController(editOrganizationAccountFormCtrl);
 
         JFXScrollPane editAccountFormPane = new JFXScrollPane();
         try {
             editAccountFormPane.setContent(loader.load());
 
-            Label title = new Label("Account Info");
+            Label title = new Label("Account Supplier Info");
             editAccountFormPane.getBottomBar().getChildren().add(title);
             title.setStyle("-fx-text-fill:WHITE; -fx-font-size: 40;");
             JFXScrollPane.smoothScrolling((ScrollPane) editAccountFormPane.getChildren().get(0));
@@ -431,10 +388,10 @@ public class AccountManagement implements Initializable {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.initStyle(StageStyle.UNDECORATED);
             newStage.setScene(new Scene(editAccountFormPane, 500, 700));
-            editAccountFormCtrl.editAccount(account);
-            newStage.show();
+            editOrganizationAccountFormCtrl.editAccount(account);
+            newStage.showAndWait();
 
-            newAccount = editAccountFormCtrl.getNewAccount();
+            newAccount = editOrganizationAccountFormCtrl.getNewAccount();
 
         } catch (IOException e) {
             e.printStackTrace();

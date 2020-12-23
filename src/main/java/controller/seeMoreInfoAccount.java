@@ -41,6 +41,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -50,7 +51,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import classForDB.Address;
 import classForDB.BaseAccount;
@@ -71,6 +74,9 @@ public class seeMoreInfoAccount implements Initializable {
 
     @FXML
     private JFXButton okBtn;
+
+    // text formatter for currency
+    TextFormatter<Number> textFormatterCurrency;
 
     @FXML
     void handleOkEditForm(ActionEvent event) {
@@ -134,11 +140,13 @@ public class seeMoreInfoAccount implements Initializable {
             }
         }
 
+        // ---- setting the money storage column
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         ((Label) nodesShowDataOfBasePane.get(0)).setText(account.getID());
         ((Label) nodesShowDataOfBasePane.get(1)).setText(account.getName());
         ((Label) nodesShowDataOfBasePane.get(2)).setText(account.getEmail());
         ((Label) nodesShowDataOfBasePane.get(3)).setText(account.getPhoneNumber());
-        ((Label) nodesShowDataOfBasePane.get(4)).setText(account.getMoneyBalance().toString());
+        ((Label) nodesShowDataOfBasePane.get(4)).setText(currencyFormat.format(account.getMoneyBalance()));
         ((Label) nodesShowDataOfBasePane.get(5)).setText(account.getAddress().getCompleteStreet());
         ((Label) nodesShowDataOfBasePane.get(6)).setText(account.getAddress().getWard());
         ((Label) nodesShowDataOfBasePane.get(7)).setText(account.getAddress().getDistrict());
@@ -227,6 +235,16 @@ public class seeMoreInfoAccount implements Initializable {
                 Label textDescription = new Label();
                 Label textRating = new Label();
 
+                textPassword.setText(((OrganizationAccount) account).getPassword());
+                textDescription.setText(((OrganizationAccount) account).getDescription());
+                textRating.setText(((OrganizationAccount) account).getRating());
+
+                textDescription.setMaxHeight(Double.MAX_VALUE);
+                textRating.setMaxHeight(Double.MAX_VALUE);
+
+                descriptionLabel.setPadding(new Insets(6, 0, 0, 0));
+                ratingLabel.setPadding(new Insets(6, 0, 0, 0));
+
                 // Add new nodes
                 int i = 0;
                 addInfoPane.addRow(i, titleLabel);
@@ -234,10 +252,33 @@ public class seeMoreInfoAccount implements Initializable {
                 addInfoPane.addRow(i + 2, descriptionLabel, textDescription);
                 addInfoPane.addRow(i + 3, ratingLabel, textRating);
 
-                // bind data
-                textPassword.setText(((OrganizationAccount) account).getPassword());
-                textDescription.setText(((OrganizationAccount) account).getDescription());
-                textRating.setText(((OrganizationAccount) account).getRating());
+                RowConstraints rc = new RowConstraints();
+                rc.setValignment(VPos.CENTER);
+                addInfoPane.getRowConstraints().addAll(rc, rc, rc, rc);
+
+                // set auto resizing for ExpandableTextArea
+                RowConstraints rowDescription = new RowConstraints();
+                rowDescription.setValignment(VPos.TOP);
+                textDescription.heightProperty().addListener((observable, oldValue, newValue) -> {
+                    Text text = new Text(textDescription.getText());
+                    text.setFont(textDescription.getFont());
+                    double width = text.getBoundsInLocal().getHeight();
+                    textDescription.setMinHeight(width);
+                    System.out.println(width);
+
+                });
+                addInfoPane.getRowConstraints().set(GridPane.getRowIndex(textDescription), rowDescription);
+
+                RowConstraints rowRating = new RowConstraints();
+                rowRating.setValignment(VPos.TOP);
+                textRating.heightProperty().addListener((observable, oldValue, newValue) -> {
+                    Text text = new Text(textRating.getText());
+                    text.setFont(textRating.getFont());
+                    double width = text.getBoundsInLocal().getHeight();
+                    textRating.setMinHeight(width);
+                });
+                addInfoPane.getRowConstraints().set(GridPane.getRowIndex(textRating), rowRating);
+
             }
                 break;
             default:

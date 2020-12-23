@@ -2,24 +2,23 @@
 /* combo box style */
 /* ================================================================= */
 
-.jfx-grid-pane {
-  -fx-background-color: rgba(191, 196, 199, 0.3);
-  -fx-font-size: 16px;
-}
-
 .jfx-combo-box {
   -fx-prompt-text-fill: #acadb3;
-  -jfx-focus-color: #4e65eb;
-  -fx-font-size: 16px;
+  -jfx-focus-color: #ec6fec;
+  -fx-font-size: 18px;
   -fx-font-family: "Times New Roman";
   -fx-font-weight: bold;
 }
 
 .jfx-combo-box .text-field {
-  -fx-text-fill: #000000;
+  -fx-text-fill: #36d8d8;
 }
 /* ================================================================= */
 /* combo box list view style */
+
+.jfx-combo-box .list-view {
+  -fx-background-color: transparent;
+}
 
 .jfx-combo-box .list-cell:filled:selected .text,
 .choice-box .list-cell:filled:selected .text {
@@ -27,16 +26,15 @@
 }
 
 .jfx-combo-box .list-cell {
-  -fx-background: white;
-  -fx-background-color: transparent;
+  -fx-background-color: rgba(255, 255, 255, 0.75);
   -fx-text-fill: -fx-text-base-color;
   -fx-padding: 3 0 2 7;
-  -fx-cell-size: 1.66667em;
+  -fx-cell-size: 2.2em;
 }
 
 .jfx-combo-box .arrow,
 .choice-box .arrow {
-  -fx-background-color: rgb(33, 45, 110);
+  -fx-background-color: Pink;
 }
 
 /* ================================================================= */
@@ -77,14 +75,14 @@
 }
 
 /* ================================================================= */
-/* date time style */
+/* text field style */
 /* ================================================================= */
 
-.jfx-date-Picker {
+.jfx-text-field {
   -fx-prompt-text-fill: #acadb3;
-  -jfx-focus-color: #4e65eb;
-  -fx-text-fill: #000000;
-  -fx-font-size: 16px;
+  -jfx-focus-color: #ec6fec;
+  -fx-text-fill: #36d8d8;
+  -fx-font-size: 18px;
   -fx-font-family: "Times New Roman";
   -fx-font-weight: bold;
 }
@@ -93,78 +91,20 @@
 /* text field style */
 /* ================================================================= */
 
-.jfx-text-field {
-  -fx-prompt-text-fill: #acadb3;
-  -jfx-focus-color: #4e65eb;
-  -fx-text-fill: #000000;
-  -fx-font-size: 16px;
-  -fx-font-family: "Times New Roman";
-  -fx-font-weight: bold;
-}
-
-/* ================================================================= */
-/* label style */
-/* ================================================================= */
-
-.label {
-  -fx-font-size: 16px;
-  -fx-font-family: "Times New Roman";
-  -fx-font-weight: bold;
-}
-
-/* ================================================================= */
-/* toggle button style */
-/* ================================================================= */
-
 .toggle-button {
   -fx-prompt-text-fill: #acadb3;
   -jfx-focus-color: #8d1f8d;
-  -fx-text-fill: rgb(44, 24, 160);
+  -fx-text-fill: rgb(24, 221, 195);
   -fx-font-family: "Arial Black";
-  -fx-font-size: 12px;
-  -jfx-toggle-button: #009646;
-  -jfx-toggle-line-color: #77c2a570;
-  -jfx-untoggle-color: #ee3939;
-  -jfx-untoggle-line-color: rgba(191, 196, 199, 0.5);
+  -fx-font-weight: 900;
+  -fx-font-size: 18px;
+  -jfx-toggle-button: #009688;
+  -jfx-toggle-line-color: #77c2bb;
+  -jfx-untoggle-color: #f77e7e;
+  -jfx-untoggle-line-color: #f2e2e2;
   -jfx-size: 8;
 }
 
-.toggle-button .text-field {
-  -fx-background-color: rgba(0, 0, 0, 0.3);
-}
-
-/* ================================================================= */
-/* toggle button style */
-/* ================================================================= */
-
-.hBox {
-  -fx-background-color: transparent;
-  -fx-border-radius: 0 10 0 0;
-  -fx-background-radius: 0 10 0 0;
-}
-
-.hBox .jfx-button {
-  -fx-font-family: "Lucida Bright";
-  -fx-font-size: 18px;
-  -fx-text-fill: black;
-}
-
-.hBox .jfx-button:pressed {
-  -fx-font-family: "Lucida Bright";
-  -fx-font-size: 16px;
-  -fx-text-fill: white;
-}
-
-.jfx-text-area > .scroll-pane {
-  -fx-hbar-policy: never;
-  -fx-vbar-policy: never;
-}
-
-.jfx-text-area {
-  -fx-prompt-text-fill: #acadb3;
-  -jfx-focus-color: #4e65eb;
-  -fx-text-fill: #000000;
-  -fx-font-size: 16px;
-  -fx-font-family: "Times New Roman";
-  -fx-font-weight: bold;
+.VBox {
+  -fx-background-color: rgba(0, 0, 0, 0.25);
 }

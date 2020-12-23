@@ -116,7 +116,7 @@ public class Home implements Initializable {
                     break;
                 case "navSupplierBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        loadFXML(getClass().getResource("/scene/supplierManagement.fxml"), new SupplierManagement());
                     });
                     break;
                 case "navReportProblemBtn":

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -29,8 +30,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import classComponent.AutoCompleteComboBoxListener;
+import classComponent.ExpandableTextArea;
 import classComponent.MyNumberStringConverter;
 import classComponent.Util;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -40,15 +43,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import classForDB.Address;
@@ -123,7 +129,7 @@ public class editAccountForm implements Initializable {
 
     // ---- Variable global
     // variable for constructor
-    BaseAccount newAccount = new BaseAccount();
+    BaseAccount newAccount = null;
 
     // variable check account is valid
     private boolean AccountIsValid;
@@ -362,7 +368,7 @@ public class editAccountForm implements Initializable {
     // set for form enable auto size
     private void setUpFormAutoSize() {
         // set for baseInfoPane
-        baseInfoPane.setHgap(35);
+        baseInfoPane.setHgap(25);
         baseInfoPane.setVgap(45);
         baseInfoPane.setPadding(new Insets(30, 0, 0, 40));
 
@@ -373,7 +379,7 @@ public class editAccountForm implements Initializable {
         baseInfoPane.getColumnConstraints().addAll(leftColBaseInfoPane, rightColBaseInfoPane);
 
         // set for addInfoPane
-        addInfoPane.setHgap(35);
+        addInfoPane.setHgap(25);
         addInfoPane.setVgap(25);
         addInfoPane.setPadding(new Insets(30, 0, 0, 40));
 
@@ -382,13 +388,14 @@ public class editAccountForm implements Initializable {
         ColumnConstraints rightColAddInfoPane = new ColumnConstraints();
         rightColAddInfoPane.setHgrow(Priority.SOMETIMES);
         addInfoPane.getColumnConstraints().addAll(leftColAddInfoPane, rightColAddInfoPane);
+
     }
 
     // Edit a Account with handle pass from table view
     public void editAccount(BaseAccount account) {
         if (account.getTypeAccount() == null)
             return;
-            
+
         switch (account.getTypeAccount()) {
             case "Customer":
                 newAccount = new CustomerAccount();
@@ -450,14 +457,16 @@ public class editAccountForm implements Initializable {
             case "Organization": {
                 ((JFXTextField) nodesEditableOfAddPane.get(0))
                         .setText(((OrganizationAccount) newAccount).getPassword());
-                ((JFXTextField) nodesEditableOfAddPane.get(1))
+                ((ExpandableTextArea) nodesEditableOfAddPane.get(1))
                         .setText(((OrganizationAccount) newAccount).getDescription());
-                ((JFXTextField) nodesEditableOfAddPane.get(2)).setText(((OrganizationAccount) newAccount).getRating());
+                ((ExpandableTextArea) nodesEditableOfAddPane.get(2))
+                        .setText(((OrganizationAccount) newAccount).getRating());
             }
                 break;
             default:
                 break;
         }
+        newAccount = null;
     }
 
     // check new data account is valid
@@ -638,10 +647,12 @@ public class editAccountForm implements Initializable {
         Label passwordLabel = new Label("Password :");
         Label descriptionLabel = new Label("Description :");
         Label ratingLabel = new Label("Rating :");
+        descriptionLabel.setPadding(new Insets(6, 0, 0, 0));
+        ratingLabel.setPadding(new Insets(6, 0, 0, 0));
 
         JFXTextField textPassword = new JFXTextField("");
-        JFXTextField textDescription = new JFXTextField("");
-        JFXTextField textRating = new JFXTextField("");
+        ExpandableTextArea textDescription = new ExpandableTextArea("");
+        ExpandableTextArea textRating = new ExpandableTextArea("");
 
         textPassword.setPromptText("Password");
         textDescription.setPromptText("Description");
@@ -672,6 +683,27 @@ public class editAccountForm implements Initializable {
         addInfoPane.addRow(i + 2, descriptionLabel, textDescription);
         addInfoPane.addRow(i + 3, ratingLabel, textRating);
 
+        RowConstraints rc = new RowConstraints();
+        rc.setValignment(VPos.CENTER);
+        addInfoPane.getRowConstraints().addAll(rc, rc, rc, rc);
+
+        // set auto resizing for ExpandableTextArea
+        RowConstraints rowDescription = new RowConstraints();
+        rowDescription.setValignment(VPos.TOP);
+        setAutoResizeTextAreaInGridPane(textDescription, rowDescription);
+        addInfoPane.getRowConstraints().set(GridPane.getRowIndex(textDescription), rowDescription);
+
+        RowConstraints rowRating = new RowConstraints();
+        rowRating.setValignment(VPos.TOP);
+        setAutoResizeTextAreaInGridPane(textRating, rowRating);
+        addInfoPane.getRowConstraints().set(GridPane.getRowIndex(textRating), rowRating);
+
+    }
+
+    private void setAutoResizeTextAreaInGridPane(ExpandableTextArea textArea, RowConstraints rc) {
+        textArea.prefHeightProperty().addListener((observable, oldValue, newValue) -> {
+            rc.setMinHeight((double) newValue);
+        });
     }
 
     @FXML
@@ -685,8 +717,8 @@ public class editAccountForm implements Initializable {
 
     @FXML
     void handleOkEditForm(ActionEvent event) {
-
         if (checkForNewData()) {
+            newAccount = new BaseAccount();
             switch (cbbTypeAccount.getValue()) {
                 case "Customer":
                     newAccount = new CustomerAccount();
@@ -752,9 +784,9 @@ public class editAccountForm implements Initializable {
                     ((OrganizationAccount) newAccount)
                             .setPassword(((JFXTextField) nodesEditableOfAddPane.get(0)).getText());
                     ((OrganizationAccount) newAccount)
-                            .setDescription(((JFXTextField) nodesEditableOfAddPane.get(1)).getText());
+                            .setDescription(((ExpandableTextArea) nodesEditableOfAddPane.get(1)).getText());
                     ((OrganizationAccount) newAccount)
-                            .setRating(((JFXTextField) nodesEditableOfAddPane.get(2)).getText());
+                            .setRating(((ExpandableTextArea) nodesEditableOfAddPane.get(2)).getText());
                 }
                     break;
                 default:
@@ -768,7 +800,7 @@ public class editAccountForm implements Initializable {
             alert.showAndWait();
 
             // close window
-            Stage stage = (Stage) cancelBtn.getScene().getWindow();
+            Stage stage = (Stage) okBtn.getScene().getWindow();
             stage.close();
         }
 
