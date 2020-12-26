@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
@@ -21,6 +22,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.HostServices;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
@@ -52,6 +54,17 @@ public class Home implements Initializable {
 
     // Get all buttons from ctrlNavBar
     ObservableList<JFXButton> navBarButtons;
+
+    // host Services getter setter
+    private HostServices hostServices;
+
+    public HostServices getHostServices() {
+        return hostServices;
+    }
+
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -126,7 +139,8 @@ public class Home implements Initializable {
                     break;
                 case "navDataBaseBtn":
                     button.setOnAction(actionEvent -> {
-                        notifyFuncNotAvailable();
+                        Hyperlink link = DataTest.getLinkDataBase();
+                        getHostServices().showDocument(link.getText());
                     });
                     break;
                 case "navSupplierBtn":

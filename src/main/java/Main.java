@@ -10,7 +10,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
-        loader.setController(new Home());
+        Home homeCtrl = new Home();
+        loader.setController(homeCtrl);
+        homeCtrl.setHostServices(getHostServices());
         primaryStage.setScene(new Scene(loader.load()));
         primaryStage.show();
 

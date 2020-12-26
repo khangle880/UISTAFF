@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import classForDB.DataTest;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -44,7 +45,8 @@ public class NavBar implements Initializable {
     @FXML
     private JFXButton signOutBtn;
 
-    private Image avt = new Image("avt/love.jpg", false);
+    // AccessDB: get image
+    private Image avt = DataTest.getAvt();
 
     private static BooleanProperty isAvtUpdated = new SimpleBooleanProperty();
 
