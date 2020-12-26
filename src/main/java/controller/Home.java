@@ -5,12 +5,18 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +25,10 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXScrollPane;
+
+import classForDB.BaseAccount;
+import classForDB.DataTest;
 
 public class Home implements Initializable {
 
@@ -73,15 +83,13 @@ public class Home implements Initializable {
                     break;
                 case "changeInfoBtn":
                     button.setOnAction(actionEvent -> {
-                        // todo: change info handle
-                        // load scene for change info
+                        editUserProfile();
                     });
                     break;
                 case "seeMoreBtn":
                     button.setOnAction(actionEvent -> {
-                        // todo: see more profile handle
-                        //* note: use viewInfoAccount.fxml
-                        // load scene for see more
+                        // AccessDB: get account of user
+                        viewInfoAccount(DataTest.getAccountList().get(3));
                     });
                     break;
                 case "homeBtn":
@@ -195,4 +203,60 @@ public class Home implements Initializable {
         alert.showAndWait();
     }
 
+    private void viewInfoAccount(BaseAccount account) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/viewInfoAccount.fxml"));
+        viewInfoAccount viewInfoAccountCtrl = new viewInfoAccount();
+        loader.setController(viewInfoAccountCtrl);
+
+        JFXScrollPane viewInfoPane = new JFXScrollPane();
+        try {
+            viewInfoPane.setContent(loader.load());
+
+            Label title = new Label("Profile");
+            viewInfoPane.getBottomBar().getChildren().add(title);
+            title.setStyle("-fx-text-fill:WHITE; -fx-font-size: 40;");
+            JFXScrollPane.smoothScrolling((ScrollPane) viewInfoPane.getChildren().get(0));
+
+            Stage newStage = new Stage();
+            newStage.setResizable(false);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.initStyle(StageStyle.UNDECORATED);
+            newStage.setScene(new Scene(viewInfoPane, 550, 700));
+            viewInfoAccountCtrl.showAccount(account);
+            newStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void editUserProfile() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/editUserProfile.fxml"));
+        editUserProfile editUserProfileCtrl = new editUserProfile();
+        loader.setController(editUserProfileCtrl);
+
+        JFXScrollPane editUserProfilePane = new JFXScrollPane();
+        try {
+            editUserProfilePane.setContent(loader.load());
+
+            Label title = new Label("Account Info");
+            editUserProfilePane.getBottomBar().getChildren().add(title);
+            title.setStyle("-fx-text-fill:WHITE; -fx-font-size: 40;");
+            JFXScrollPane.smoothScrolling((ScrollPane) editUserProfilePane.getChildren().get(0));
+
+            Stage newStage = new Stage();
+            newStage.setResizable(false);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.initStyle(StageStyle.UNDECORATED);
+            newStage.setScene(new Scene(editUserProfilePane, 500, 670));
+            editUserProfileCtrl.editAccount(DataTest.getAccountList().get(3));
+            newStage.showAndWait();
+
+            DataTest.getAccountList().set(3, editUserProfileCtrl.getNewProfile());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -387,7 +387,6 @@ public class AccountManagement implements Initializable {
     }
 
     private BaseAccount editAccount(BaseAccount account) {
-
         BaseAccount newAccount = new BaseAccount();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/editAccountForm.fxml"));
         editAccountForm editAccountFormCtrl = new editAccountForm();
