@@ -1,0 +1,230 @@
+/* scroll pane style */
+.scroll-pane {
+  -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+  -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal,
+.scroll-bar:vertical {
+  -fx-background-color: transparent;
+}
+
+.increment-button,
+.decrement-button {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+  -fx-background-color: rgb(13, 13, 14);
+  -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+  -fx-background-color: black;
+}
+
+/* JFXMasonryPane style */
+.jfx-masonry-pane {
+  -fx-background-color: transparent;
+}
+
+.background-app {
+  -fx-background-image: url("../resource/background3.jpg");
+  -fx-background-repeat: stretch;
+  -fx-background-size: 1080 720;
+  -fx-background-position: center center;
+  -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+/* table styles */
+.table-view .column-header,
+.table-view .column-header-background .filler {
+  -fx-background-color: transparent;
+}
+
+.table-view {
+  -fx-border-color: rgba(8, 10, 17, 0.4);
+  -fx-focus-color: rgba(8, 10, 17, 0.4);
+  -fx-faint-focus-color: rgba(8, 10, 17, 0.4);
+  -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: rgba(17, 22, 92, 0.822);
+  -fx-padding: 5px 5px 5px 5px;
+}
+
+.table-view .column-header .label {
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-font-size: 16px;
+  -fx-alignment: CENTER;
+}
+
+.table-view:focused .table-row-cell:focused {
+  -fx-border-color: derive(-fx-base, 20%);
+  -fx-background-insets: 0 1 0 1;
+  -fx-table-cell-border-color: cyan;
+}
+
+.table-row-cell {
+  -fx-border-width: 0 0 0 0;
+  -fx-border-color: transparent;
+  -fx-table-cell-border-color: transparent;
+}
+
+.table-view .cell {
+  -fx-cell-size: 35;
+  -fx-background-color: rgba(8, 10, 17, 0.4);
+  -fx-text-fill: rgb(230, 227, 227);
+  -fx-alignment: CENTER;
+}
+
+.table-view .cell:selected {
+  -fx-background-color: whitesmoke;
+  -fx-text-background-color: #cc7d22;
+}
+
+/* Style of each entire row in the table view when is hovered */
+.table-view .cell:hover {
+  -fx-background-color: #7297c2;
+}
+
+/* Style of each entire row in the table view when is getting focused */
+.table-view .cell:focused {
+  -fx-background-color: #6590c2;
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button,
+.table-view .decrement-button {
+  -fx-background-color: transparent;
+  -fx-background-radius: 2em;
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track {
+  -fx-background-color: transparent;
+  -fx-border-color: derive(#29292d, 80%);
+  -fx-background-radius: 2em;
+  -fx-border-radius: 2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+  -fx-background-color: derive(#111412, 90%);
+  -fx-background-insets: 2, 0, 0;
+  -fx-background-radius: 2em;
+}
+
+.table-view .scroll-bar {
+  -fx-background-color: black;
+}
+
+.table-view .column-header-background .filler {
+  -fx-background-color: linear-gradient(#101010 0%, #424141 100%);
+}
+
+/* Style of each table cell */
+.table-view .table-cell {
+  -fx-background-color: transparent;
+  -fx-font-weight: bold;
+  -fx-font-size: 14px; /* the font size you asked in the comments below */
+  -fx-text-fill: white;
+}
+/* /////////////////////////////////////////////////////////////////// */
+/* Style labels */
+/* /////////////////////////////////////////////////////////////////// */
+
+.top-label {
+  -fx-background-color: transparent;
+  -fx-font-family: "Bell MT";
+  -fx-font-size: 24px;
+  -fx-text-fill: #d4d4d4f5;
+}
+
+.title-subReport-label{
+  -fx-background-color: transparent;
+  -fx-font-family: "Times New Roman";
+  -fx-font-size: 22px;
+  -fx-text-fill: rgb(65, 183, 212);
+  -fx-padding: 10px 0px 10px 0px;
+}
+
+.content-subReport-label{
+  -fx-background-color: transparent;
+  -fx-font-family: "Bell MT";
+  -fx-font-size: 20px;
+  -fx-text-fill: rgb(243, 243, 243);
+  -fx-padding: 10px 0px 0px 0px;
+}
+
+/* /////////////////////////////////////////////////////////////////// */
+/* /////////////////////////////////////////////////////////////////// */
+
+.chart {
+  -fx-padding: 10px;
+  -fx-background-color: #010101;
+}
+
+.chart-content {
+  -fx-padding: 30px;    
+}
+
+.axis {
+  -fx-font-size: 1.4em;    
+  -fx-tick-label-fill: rgba(240, 240, 27, 0.904);
+  -fx-font-family: Tahoma;
+  -fx-tick-length: 20;
+  -fx-minor-tick-length: 10;
+}
+
+.chart-title {
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 1.6em;
+}
+
+.axis-label {
+  -fx-text-fill: #ffffff;
+}
+
+.chart-plot-background {
+  -fx-background-color:transparent;
+}
+
+.chart-vertical-grid-lines {
+  -fx-stroke:#505050;
+}
+
+.chart-horizontal-grid-lines {
+  -fx-stroke: #505050;
+}
+
+.chart-alternative-row-fill {
+  -fx-fill:transparent;
+  -fx-stroke: transparent;
+}
+
+.default-color0.chart-series-line {
+  -fx-stroke: #0000ff;
+}
+
+.default-color0.chart-line-symbol {
+  -fx-background-color: #0000ff, white;
+}

@@ -14,7 +14,7 @@ public class BaseAccount {
     private SimpleStringProperty typeAccount;
     private SimpleObjectProperty<Address> address;
     private SimpleObjectProperty<LocalDateTime> JoinTime;
-    private SimpleLongProperty moneyBalance;
+    private SimpleLongProperty amountBalance;
     private SimpleBooleanProperty status;
 
     public BaseAccount() {
@@ -25,12 +25,12 @@ public class BaseAccount {
         this.typeAccount = new SimpleStringProperty();
         this.address = new SimpleObjectProperty<Address>();
         this.JoinTime = new SimpleObjectProperty<LocalDateTime>();
-        this.moneyBalance = new SimpleLongProperty();
+        this.amountBalance = new SimpleLongProperty();
         this.status = new SimpleBooleanProperty();
     };
 
     public BaseAccount(String ID, String name, String email, String phoneNumber, String typeAccount, Address address,
-            LocalDateTime joinTime, Long moneyBalance, Boolean status) {
+            LocalDateTime joinTime, Long amountBalance, Boolean status) {
         this.ID = new SimpleStringProperty(ID);
         this.name = new SimpleStringProperty(name);
         this.email = new SimpleStringProperty(email);
@@ -38,7 +38,7 @@ public class BaseAccount {
         this.typeAccount = new SimpleStringProperty(typeAccount);
         this.address = new SimpleObjectProperty<Address>(address);
         this.JoinTime = new SimpleObjectProperty<LocalDateTime>(joinTime);
-        this.moneyBalance = new SimpleLongProperty(moneyBalance);
+        this.amountBalance = new SimpleLongProperty(amountBalance);
         this.status = new SimpleBooleanProperty(status);
     }
 
@@ -133,17 +133,17 @@ public class BaseAccount {
         this.JoinTime.set(joinTime);
     }
 
-    // ---- MoneyBalance getter setter
-    public SimpleLongProperty getMoneyBalanceProperty() {
-        return moneyBalance;
+    // ---- AmountBalance getter setter
+    public SimpleLongProperty getAmountBalanceProperty() {
+        return amountBalance;
     }
 
-    public Long getMoneyBalance() {
-        return moneyBalance.get();
+    public Long getAmountBalance() {
+        return amountBalance.get();
     }
 
-    public void setMoneyBalance(Long moneyBalance) {
-        this.moneyBalance.set(moneyBalance);
+    public void setAmountBalance(Long amountBalance) {
+        this.amountBalance.set(amountBalance);
     }
 
     // ---- Status getter setter

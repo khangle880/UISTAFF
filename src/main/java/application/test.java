@@ -1,178 +1,70 @@
 package application;
 
-import java.util.function.Function;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.HPos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.stage.Modality;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class test extends Application {
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
     @Override
     public void start(Stage primaryStage) {
-        TableView<Person> table = new TableView<>();
-        table.getColumns().add(column("First Name", Person::firstNameProperty, 150));
-        table.getColumns().add(column("Last Name", Person::lastNameProperty, 150));
-        table.getColumns().add(column("Email", Person::emailProperty, 200));
+        LocalDateTime fromDateTime = LocalDateTime.of(1984, 12, 16, 7, 45, 55);
+        LocalDateTime toDateTime = LocalDateTime.of(2014, 9, 10, 6, 40, 45);
 
-        TableColumn<Person, Person> editColumn = column("Edit", ReadOnlyObjectWrapper<Person>::new, 60);
+        LocalDateTime tempDateTime = LocalDateTime.from(fromDateTime);
+        System.out.println(tempDateTime);
 
-        table.getColumns().add(editColumn);
+        // long years = tempDateTime.until(toDateTime, ChronoUnit.YEARS);
+        // tempDateTime = tempDateTime.plusYears(years);
 
-        editColumn.setCellFactory(col -> {
-            Button editButton = new Button("Edit");
-            TableCell<Person, Person> cell = new TableCell<Person, Person>() {
-                @Override
-                public void updateItem(Person person, boolean empty) {
-                    super.updateItem(person, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(editButton);
-                    }
-                }
-            };
+        // long months = tempDateTime.until(toDateTime, ChronoUnit.MONTHS);
+        // tempDateTime = tempDateTime.plusMonths(months);
 
-            editButton.setOnAction(e -> edit(cell.getItem(), primaryStage));
+        
+        long days = tempDateTime.until(toDateTime, ChronoUnit.DAYS);
+        tempDateTime = tempDateTime.plusDays(days);
 
-            return cell ;
-        });
+        long hours = tempDateTime.until(toDateTime, ChronoUnit.HOURS);
+        tempDateTime = tempDateTime.plusHours(hours);
 
-        table.getItems().addAll(
-                new Person("Jacob", "Smith", "jacob.smith@example.com"),
-                new Person("Isabella", "Johnson", "isabella.johnson@example.com"),
-                new Person("Ethan", "Williams", "ethan.williams@example.com"),
-                new Person("Emma", "Jones", "emma.jones@example.com"),
-                new Person("Michael", "Brown", "michael.brown@example.com")
-        );
+        long minutes = tempDateTime.until(toDateTime, ChronoUnit.MINUTES);
+        tempDateTime = tempDateTime.plusMinutes(minutes);
 
-        primaryStage.setScene(new Scene(new BorderPane(table)));
-        primaryStage.show();
-    }
+        long seconds = tempDateTime.until(toDateTime, ChronoUnit.SECONDS);
 
-    private void edit(Person person, Stage primaryStage) {
-        TextField firstNameTextField = boundTF(person.firstNameProperty());
-        TextField lastNameTextField = boundTF(person.lastNameProperty());
-        TextField emailTextField = boundTF(person.emailProperty());
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(16));
-
-
-        grid.addRow(0, new Label("First name:"), firstNameTextField);
-        grid.addRow(1, new Label("Last name:"), lastNameTextField);
-        grid.addRow(2, new Label("Email:"), emailTextField);
-
-        Button okButton = new Button("OK");
-
-        grid.add(okButton, 0, 3, 2, 1);
-
-        ColumnConstraints leftCol = new ColumnConstraints();
-        leftCol.setHgrow(Priority.NEVER);
-        leftCol.setHalignment(HPos.RIGHT);
-
-        ColumnConstraints rightCol = new ColumnConstraints();
-        rightCol.setHgrow(Priority.SOMETIMES);
-        grid.getColumnConstraints().addAll(leftCol, rightCol);
-        GridPane.setHalignment(okButton, HPos.CENTER);
-
-        Scene scene = new Scene(grid);
-        Stage stage = new Stage();
-
-        okButton.setOnAction(e -> stage.hide());
-        firstNameTextField.setOnAction(e -> stage.hide());
-        lastNameTextField.setOnAction(e -> stage.hide());
-        emailTextField.setOnAction(e -> stage.hide());
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(primaryStage);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private TextField boundTF(StringProperty binding) {
-        TextField textField = new TextField();
-        textField.textProperty().bindBidirectional(binding);
-        textField.setMinWidth(80);
-        return textField ;
-    }
-
-    private <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property, double width) {
-        TableColumn<S,T> col = new TableColumn<>(title);
-        col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
-        col.setPrefWidth(width);
-        return col ;
-    }
-
-    public static class Person {
-        private final StringProperty firstName = new SimpleStringProperty();
-        private final StringProperty lastName = new SimpleStringProperty();
-        private final StringProperty email = new SimpleStringProperty();
-
-        public Person(String firstName, String lastName, String email) {
-            setFirstName(firstName);
-            setLastName(lastName);
-            setEmail(email);
-        }
-
-        public final StringProperty firstNameProperty() {
-            return this.firstName;
-        }
-
-        public final java.lang.String getFirstName() {
-            return this.firstNameProperty().get();
-        }
-
-        public final void setFirstName(final java.lang.String firstName) {
-            this.firstNameProperty().set(firstName);
-        }
-
-        public final StringProperty lastNameProperty() {
-            return this.lastName;
-        }
-
-        public final java.lang.String getLastName() {
-            return this.lastNameProperty().get();
-        }
-
-        public final void setLastName(final java.lang.String lastName) {
-            this.lastNameProperty().set(lastName);
-        }
-
-        public final StringProperty emailProperty() {
-            return this.email;
-        }
-
-        public final java.lang.String getEmail() {
-            return this.emailProperty().get();
-        }
-
-        public final void setEmail(final java.lang.String email) {
-            this.emailProperty().set(email);
-        }
-
-
+        System.out.println(days + " days " + hours + " hours " + minutes
+                + " minutes " + seconds + " seconds.");
     }
 
     public static void main(String[] args) {

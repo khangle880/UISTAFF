@@ -5,13 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -33,7 +34,6 @@ import classComponent.AutoCompleteComboBoxListener;
 import classComponent.ExpandableTextArea;
 import classComponent.MyNumberStringConverter;
 import classComponent.Util;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,13 +50,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import classForDB.Address;
 import classForDB.BaseAccount;
 import classForDB.CustomerAccount;
@@ -84,7 +84,7 @@ public class editAccountForm implements Initializable {
     private JFXTextField textPhoneNumber;
 
     @FXML
-    private JFXTextField textMoneyBalance;
+    private JFXTextField textAmountBalance;
 
     @FXML
     private JFXTextField textAddress;
@@ -116,11 +116,11 @@ public class editAccountForm implements Initializable {
     @FXML
     private JFXButton okBtn;
 
-    // ---- force the textField money storage to be numeric only
+    // ---- force the textField Amount storage to be numeric only
     @FXML
-    void checkValueMoneyText(KeyEvent event) {
-        if (!textMoneyBalance.getText().matches("\\d*")) {
-            textMoneyBalance.setText(textMoneyBalance.getText().replaceAll("[^\\d]", ""));
+    void checkValueAmountText(KeyEvent event) {
+        if (!textAmountBalance.getText().matches("\\d*")) {
+            textAmountBalance.setText(textAmountBalance.getText().replaceAll("[^\\d]", ""));
         }
     }
 
@@ -141,8 +141,8 @@ public class editAccountForm implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // setting textField moneyStorage to currencyFormat
-        setTextFieldCurrencyFormat(textMoneyBalance);
+        // setting textField Amount Balance to currencyFormat
+        setTextFieldCurrencyFormat(textAmountBalance);
 
         // AccessDB : set data comboBox type account
         cbbTypeAccount.getItems().addAll("Customer", "Employee", "Organization");
@@ -168,13 +168,35 @@ public class editAccountForm implements Initializable {
         });
 
         initValidatorForBaseInfoForm();
-        setUpFormAutoSize();
+        setUpResizeForm();
         bindingDataForComboBoxAddress();
+        setFormatForDatePicker(dateTime);
 
         // setting filter and auto complete of comboBox
         new AutoCompleteComboBoxListener<>(cbbWard);
         new AutoCompleteComboBoxListener<>(cbbDistrict);
         new AutoCompleteComboBoxListener<>(cbbProvince);
+    }
+
+    private void setFormatForDatePicker(JFXDatePicker datePicker) {
+        datePicker.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate == null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
+                    return null;
+                }
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        });
     }
 
     // bind data address
@@ -308,7 +330,7 @@ public class editAccountForm implements Initializable {
         textName.getValidators().add(validatorText);
         textEmail.getValidators().addAll(validatorText, validatorEmail);
         textPhoneNumber.getValidators().addAll(validatorText, validatorNumber);
-        textMoneyBalance.getValidators().add(validatorText);
+        textAmountBalance.getValidators().add(validatorText);
         textAddress.getValidators().add(validatorText);
         cbbProvince.getValidators().add(validatorText);
         setValidatorSelectedForCbb(cbbProvince);
@@ -325,7 +347,7 @@ public class editAccountForm implements Initializable {
         addListenerNotFocus(textName);
         addListenerNotFocus(textEmail);
         addListenerNotFocus(textPhoneNumber);
-        addListenerNotFocus(textMoneyBalance);
+        addListenerNotFocus(textAmountBalance);
         addListenerNotFocus(textAddress);
         addListenerNotFocus(cbbProvince);
         addListenerNotFocus(cbbDistrict);
@@ -366,7 +388,7 @@ public class editAccountForm implements Initializable {
     }
 
     // set for form enable auto size
-    private void setUpFormAutoSize() {
+    private void setUpResizeForm() {
         // set for baseInfoPane
         baseInfoPane.setHgap(25);
         baseInfoPane.setVgap(45);
@@ -410,17 +432,18 @@ public class editAccountForm implements Initializable {
                 break;
         }
         newAccount = account;
-
+        // JoinTime
         textID.setText(newAccount.getID());
         textName.setText(newAccount.getName());
         textEmail.setText(newAccount.getEmail());
         textPhoneNumber.setText(newAccount.getPhoneNumber());
-        textMoneyBalance.setText(newAccount.getMoneyBalance().toString());
+        textAmountBalance.setText(newAccount.getAmountBalance().toString());
         textAddress.setText(newAccount.getAddress().getCompleteStreet());
         cbbWard.getSelectionModel().select((newAccount.getAddress().getWard()));
         cbbDistrict.getSelectionModel().select((newAccount.getAddress().getDistrict()));
         cbbProvince.getSelectionModel().select((newAccount.getAddress().getProvince()));
         cbbTypeAccount.getSelectionModel().select((newAccount.getTypeAccount()));
+        dateTime.setValue(newAccount.getJoinTime().toLocalDate());
         toggleStatus.setSelected(newAccount.getStatus());
 
         ObservableList<Node> childrenNodeOfAddPane = addInfoPane.getChildren();
@@ -529,6 +552,10 @@ public class editAccountForm implements Initializable {
         JFXComboBox<String> cbbTypeCard = new JFXComboBox<String>();
         JFXDatePicker dateTimeCreation = new JFXDatePicker();
         JFXDatePicker dateTimeExpiry = new JFXDatePicker();
+
+        // set format for datePicker
+        setFormatForDatePicker(dateTimeCreation);
+        setFormatForDatePicker(dateTimeExpiry);
 
         dateTimeCreation.setPrefWidth(400);
         dateTimeExpiry.setPrefWidth(400);
@@ -737,8 +764,8 @@ public class editAccountForm implements Initializable {
             newAccount.setName(textName.getText());
             newAccount.setEmail(textEmail.getText());
             newAccount.setPhoneNumber(textPhoneNumber.getText());
-            newAccount.setMoneyBalance(
-                    Long.parseLong(textMoneyBalance.getTextFormatter().valueProperty().getValue().toString()) / 100);
+            newAccount.setAmountBalance(
+                    Long.parseLong(textAmountBalance.getTextFormatter().valueProperty().getValue().toString()) / 100);
             newAccount.setAddress(new Address(textAddress.getText(), cbbWard.getValue(), cbbDistrict.getValue(),
                     cbbProvince.getValue()));
             newAccount.setTypeAccount(cbbTypeAccount.getValue());

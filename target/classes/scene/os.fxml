@@ -33,7 +33,7 @@
                             <TableColumn fx:id="idCol" minWidth="100.0" text="ID" />
                             <TableColumn fx:id="nameCol" minWidth="150.0" prefWidth="0.0" text="Name" />
                               <TableColumn fx:id="addressCol" minWidth="300.0" prefWidth="0.0" text="Address" />
-                              <TableColumn fx:id="moneyCol" minWidth="150.0" prefWidth="75.0" text="Money Storage" />
+                              <TableColumn fx:id="amountCol" minWidth="150.0" prefWidth="75.0" text="Money Storage" />
                               <TableColumn fx:id="statusCol" minWidth="100.0" prefWidth="75.0" text="Status" />
                           </columns>
                            <HBox.margin>
@@ -61,7 +61,7 @@
                <VBox.margin>
                   <Insets bottom="45.0" />
                </VBox.margin></JFXTextField>
-            <JFXTextField fx:id="textMoneyStorage" labelFloat="true" onKeyTyped="#checkValueMoneyText" promptText="Money Storage" unFocusColor="#3bbcc3">
+            <JFXTextField fx:id="textAmountStorage" labelFloat="true" onKeyTyped="#checkValueAmountText" promptText="Amount Storage" unFocusColor="#3bbcc3">
                <VBox.margin>
                   <Insets bottom="45.0" />
                </VBox.margin></JFXTextField>

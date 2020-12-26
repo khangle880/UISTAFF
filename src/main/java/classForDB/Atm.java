@@ -9,22 +9,22 @@ public class Atm {
     private SimpleStringProperty ID;
     private SimpleStringProperty name;
     private SimpleObjectProperty<Address> address;
-    private SimpleLongProperty moneyStorage;
+    private SimpleLongProperty amountStorage;
     private SimpleBooleanProperty status;
 
     public Atm() {
         this.ID = new SimpleStringProperty();
         this.name = new SimpleStringProperty();
         this.address = new SimpleObjectProperty<Address>();
-        this.moneyStorage = new SimpleLongProperty();
+        this.amountStorage = new SimpleLongProperty();
         this.status = new SimpleBooleanProperty();
     };
 
-    public Atm(String ID, String name, Address address, Long moneyStorage, Boolean status) {
+    public Atm(String ID, String name, Address address, Long amountStorage, Boolean status) {
         this.ID = new SimpleStringProperty(ID);
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleObjectProperty<Address>(address);
-        this.moneyStorage = new SimpleLongProperty(moneyStorage);
+        this.amountStorage = new SimpleLongProperty(amountStorage);
         this.status = new SimpleBooleanProperty(status);
     }
 
@@ -40,16 +40,16 @@ public class Atm {
         this.status.set(status);
     }
 
-    public SimpleLongProperty getMoneyStorageProperty() {
-        return moneyStorage;
+    public SimpleLongProperty getAmountStorageProperty() {
+        return amountStorage;
     }
 
-    public Long getMoneyStorage() {
-        return moneyStorage.get();
+    public Long getAmountStorage() {
+        return amountStorage.get();
     }
 
-    public void setMoneyStorage(Long moneyStorage) {
-        this.moneyStorage.set(moneyStorage);
+    public void setAmountStorage(Long amountStorage) {
+        this.amountStorage.set(amountStorage);
     }
     
     public SimpleObjectProperty<Address> getAddressProperty() {

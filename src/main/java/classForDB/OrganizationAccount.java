@@ -16,9 +16,9 @@ public class OrganizationAccount extends BaseAccount {
     };
 
     public OrganizationAccount(String ID, String name, String email, String phoneNumber, String typeAccount,
-            Address address, LocalDateTime joinTime, Long moneyBalance, Boolean status, String password,
+            Address address, LocalDateTime joinTime, Long amountBalance, Boolean status, String password,
             String description, String rating) {
-        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, moneyBalance, status);
+        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, amountBalance, status);
         this.password = new SimpleStringProperty(password);
         this.description = new SimpleStringProperty(description);
         this.rating = new SimpleStringProperty(rating);

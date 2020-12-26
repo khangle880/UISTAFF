@@ -14,9 +14,9 @@ public class PersonalAccount extends BaseAccount {
     };
 
     public PersonalAccount(String ID, String name, String email, String phoneNumber, String typeAccount,
-            Address address, LocalDateTime joinTime, Long moneyBalance, Boolean status, String identifyID,
+            Address address, LocalDateTime joinTime, Long amountBalance, Boolean status, String identifyID,
             String mobilePhoneNumber) {
-        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, moneyBalance, status);
+        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, amountBalance, status);
         this.identifyID = new SimpleStringProperty(identifyID);
         this.mobilePhoneNumber = new SimpleStringProperty(mobilePhoneNumber);
     }

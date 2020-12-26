@@ -55,6 +55,7 @@ import classComponent.MyNumberStringConverter;
 import classComponent.Util;
 import classForDB.Address;
 import classForDB.Atm;
+import classForDB.DataTest;
 
 public class OS implements Initializable {
 
@@ -77,7 +78,7 @@ public class OS implements Initializable {
     private TableColumn<Atm, Address> addressCol;
 
     @FXML
-    private TableColumn<Atm, Long> moneyCol;
+    private TableColumn<Atm, Long> amountCol;
 
     @FXML
     private TableColumn<Atm, Boolean> statusCol;
@@ -95,7 +96,7 @@ public class OS implements Initializable {
     private JFXTextField textName;
 
     @FXML
-    private JFXTextField textMoneyStorage;
+    private JFXTextField textAmountStorage;
 
     @FXML
     private JFXTextField textAddress;
@@ -123,12 +124,9 @@ public class OS implements Initializable {
     private boolean newInfoAccountIsValid;
     private String AccountErrorText;
 
-    private final ObservableList<Atm> dataOfTable = FXCollections.observableArrayList(
-            new Atm("ab6632", "Atm so 3", new Address("26", "dong hoa", "Di an", "Binh duong"), 2200000L, false),
-            new Atm("ab6633", "Atm so 4", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
-            new Atm("ab6634", "Atm so 5", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
-            new Atm("ab6635", "Atm so 6", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true),
-            new Atm("ab6636", "Atm so 7", new Address("26", "Dong hoa", "Di an", "Binh duong"), 2200000L, true));
+   // AccessDB: get data of atm
+   private final ObservableList<Atm> dataOfTable = DataTest.getAtmList();
+ 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -150,8 +148,8 @@ public class OS implements Initializable {
         // set handler click for buttons in bottom bar
         setHandleForClickButtonInBottomBar();
 
-        // setting textField moneyStorage to currencyFormat
-        setTextFieldCurrencyFormat(textMoneyStorage);
+        // setting textField AmountStorage to currencyFormat
+        setTextFieldCurrencyFormat(textAmountStorage);
 
         // setting filter and auto complete of comboBox
         new AutoCompleteComboBoxListener<>(comboBoxWard);
@@ -194,13 +192,13 @@ public class OS implements Initializable {
         nameCol.setPrefWidth(150);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        // MONEY COL SETTING
-        moneyCol.setPrefWidth(150);
-        moneyCol.setCellValueFactory(new PropertyValueFactory<>("moneyStorage"));
+        // Amount COL SETTING
+        amountCol.setPrefWidth(150);
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amountStorage"));
 
-        // ---- setting the money storage column
+        // ---- setting the amount storage column
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-        moneyCol.setCellFactory(ms -> new TableCell<Atm, Long>() {
+        amountCol.setCellFactory(ms -> new TableCell<Atm, Long>() {
 
             @Override
             protected void updateItem(Long price, boolean empty) {
@@ -333,8 +331,8 @@ public class OS implements Initializable {
                     // Filter matches complete street.
                 } else if (atm.getAddress().getCompleteStreet().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
-                    // Filter matches money storage.
-                } else if (atm.getMoneyStorage().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    // Filter matches Amount storage.
+                } else if (atm.getAmountStorage().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                 }
 
@@ -362,8 +360,8 @@ public class OS implements Initializable {
                             Atm newAtm = new Atm();
                             newAtm.setID(textID.getText());
                             newAtm.setName(textName.getText());
-                            newAtm.setMoneyStorage(Long.parseLong(
-                                    textMoneyStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
+                            newAtm.setAmountStorage(Long.parseLong(
+                                    textAmountStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
                             newAtm.setAddress(new Address(textAddress.getText(), comboBoxWard.getValue(),
                                     comboBoxDistrict.getValue(), comboBoxProvince.getValue()));
                             newAtm.setStatus(toggleActive.isSelected());
@@ -389,8 +387,8 @@ public class OS implements Initializable {
                             Atm newAtm = new Atm();
                             newAtm.setID(textID.getText());
                             newAtm.setName(textName.getText());
-                            newAtm.setMoneyStorage(Long.parseLong(
-                                    textMoneyStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
+                            newAtm.setAmountStorage(Long.parseLong(
+                                    textAmountStorage.getTextFormatter().valueProperty().getValue().toString()) / 100);
                             newAtm.setAddress(new Address(textAddress.getText(), comboBoxWard.getValue(),
                                     comboBoxDistrict.getValue(), comboBoxProvince.getValue()));
                             newAtm.setStatus(toggleActive.isSelected());
@@ -529,7 +527,7 @@ public class OS implements Initializable {
                 Atm atm = atmTable.getItems().get(atmTable.getSelectionModel().getSelectedIndex());
                 textID.setText(atm.getID());
                 textName.setText(atm.getName());
-                textMoneyStorage.setText(atm.getMoneyStorage().toString());
+                textAmountStorage.setText(atm.getAmountStorage().toString());
                 textAddress.setText(atm.getAddress().getCompleteStreet());
                 comboBoxWard.getSelectionModel().select((atm.getAddress().getWard().toString()));
                 comboBoxDistrict.getSelectionModel().select((atm.getAddress().getDistrict().toString()));
@@ -537,7 +535,7 @@ public class OS implements Initializable {
                 toggleActive.setSelected(atm.getStatus());
                 textID.resetValidation();
                 textName.resetValidation();
-                textMoneyStorage.resetValidation();
+                textAmountStorage.resetValidation();
                 textAddress.resetValidation();
                 comboBoxWard.resetValidation();
                 comboBoxDistrict.resetValidation();
@@ -547,10 +545,10 @@ public class OS implements Initializable {
     }
 
     @FXML
-    void checkValueMoneyText(KeyEvent event) {
-        // ---- force the textField money storage to be numeric only
-        if (!textMoneyStorage.getText().matches("\\d*")) {
-            textMoneyStorage.setText(textMoneyStorage.getText().replaceAll("[^\\d]", ""));
+    void checkValueAmountText(KeyEvent event) {
+        // ---- force the textField Amount storage to be numeric only
+        if (!textAmountStorage.getText().matches("\\d*")) {
+            textAmountStorage.setText(textAmountStorage.getText().replaceAll("[^\\d]", ""));
         }
     }
 
@@ -560,7 +558,7 @@ public class OS implements Initializable {
         atmTable.getSelectionModel().clearSelection();
         textID.clear();
         textName.clear();
-        textMoneyStorage.setText("0");
+        textAmountStorage.setText("0");
         textAddress.clear();
         comboBoxWard.setValue(null);
         comboBoxDistrict.setValue(null);
@@ -601,7 +599,7 @@ public class OS implements Initializable {
         // set validator for Nodes
         textID.getValidators().add(validatorText);
         textName.getValidators().add(validatorText);
-        textMoneyStorage.getValidators().add(validatorText);
+        textAmountStorage.getValidators().add(validatorText);
         textAddress.getValidators().add(validatorText);
         comboBoxWard.getValidators().add(validatorText);
         setValidatorSelectedForCbb(comboBoxWard);
@@ -613,7 +611,7 @@ public class OS implements Initializable {
         // set event exit focus for Nodes
         addListenerNotFocus(textID);
         addListenerNotFocus(textName);
-        addListenerNotFocus(textMoneyStorage);
+        addListenerNotFocus(textAmountStorage);
         addListenerNotFocus(textAddress);
         addListenerNotFocus(comboBoxWard);
         addListenerNotFocus(comboBoxDistrict);

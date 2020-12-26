@@ -21,10 +21,10 @@ public class CustomerAccount extends PersonalAccount {
     };
 
     public CustomerAccount(String ID, String name, String email, String phoneNumber, String typeAccount,
-            Address address, LocalDateTime joinTime, Long moneyBalance, Boolean status, String identifyID,
+            Address address, LocalDateTime joinTime, Long amountBalance, Boolean status, String identifyID,
             String mobilePhoneNumber, String cardID, String PINNumber, String typeCard, LocalDateTime creationDate,
             LocalDateTime expiryDate) {
-        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, moneyBalance, status, identifyID,
+        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, amountBalance, status, identifyID,
                 mobilePhoneNumber);
         this.cardID = new SimpleStringProperty(cardID);
         this.PINNumber = new SimpleStringProperty(PINNumber);

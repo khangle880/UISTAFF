@@ -5,6 +5,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -71,11 +73,14 @@ public class Home implements Initializable {
                     break;
                 case "changeInfoBtn":
                     button.setOnAction(actionEvent -> {
+                        // todo: change info handle
                         // load scene for change info
                     });
                     break;
                 case "seeMoreBtn":
                     button.setOnAction(actionEvent -> {
+                        // todo: see more profile handle
+                        //* note: use viewInfoAccount.fxml
                         // load scene for see more
                     });
                     break;
@@ -89,11 +94,13 @@ public class Home implements Initializable {
                     break;
                 case "settingBtn":
                     button.setOnAction(actionEvent -> {
+                        // todo: setting handle
                         // load scene for setting
                     });
                     break;
                 case "signOutBtn":
                     button.setOnAction(actionEvent -> {
+                        // todo: sign out handle
                         // action for sign out
                     });
                     break;
@@ -111,7 +118,7 @@ public class Home implements Initializable {
                     break;
                 case "navDataBaseBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        notifyFuncNotAvailable();
                     });
                     break;
                 case "navSupplierBtn":
@@ -121,7 +128,7 @@ public class Home implements Initializable {
                     break;
                 case "navReportProblemBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        notifyFuncNotAvailable();
                     });
                     break;
                 case "navAccountBtn":
@@ -131,12 +138,12 @@ public class Home implements Initializable {
                     break;
                 case "navMessageBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;s
+                        notifyFuncNotAvailable();
                     });
                     break;
                 case "navReportBtn":
                     button.setOnAction(actionEvent -> {
-                        // loadFXML(getClass().getResource(""), new ;
+                        loadFXML(getClass().getResource("/scene/report.fxml"), new report());
                     });
                     break;
                 default:
@@ -178,6 +185,14 @@ public class Home implements Initializable {
         if (navBarPane.isOpened()) {
             navBarPane.close();
         }
+    }
+
+    private void notifyFuncNotAvailable() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Notify");
+        alert.setHeaderText(null);
+        alert.setContentText("Function Is Not Supported Yet !");
+        alert.showAndWait();
     }
 
 }

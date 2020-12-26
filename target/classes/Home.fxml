@@ -15,7 +15,7 @@
             <AnchorPane fx:id="centerPane" BorderPane.alignment="CENTER">
                <children>
                   <BorderPane fx:id="currentPane" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ImageView fitHeight="83.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                  <ImageView fitHeight="83.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="13.0">
                      <image>
                         <Image url="@resource/output-onlinepngtools.png" />
                      </image>

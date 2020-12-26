@@ -27,8 +27,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -42,8 +42,8 @@
                   <JFXTextField fx:id="textName" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <JFXTextField fx:id="textEmail" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <JFXTextField fx:id="textPhoneNumber" promptText="Phone Number" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <JFXTextField fx:id="textMoneyBalance" layoutX="135.0" layoutY="187.0" onKeyTyped="#checkValueMoneyText" promptText="Money Balance" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <JFXTextField fx:id="textAddress" layoutX="172.0" layoutY="197.0" onKeyTyped="#checkValueMoneyText" promptText="Address" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <JFXTextField fx:id="textAmountBalance" layoutX="135.0" layoutY="187.0" onKeyTyped="#checkValueAmountText" promptText="Amount Balance" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <JFXTextField fx:id="textAddress" layoutX="172.0" layoutY="197.0" promptText="Address" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <JFXComboBox fx:id="cbbProvince" editable="true" prefHeight="31.0" prefWidth="398.0" promptText="Province / City" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <JFXComboBox fx:id="cbbDistrict" editable="true" prefHeight="31.0" prefWidth="398.0" promptText="District" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <JFXComboBox fx:id="cbbWard" editable="true" prefHeight="31.0" prefWidth="447.0" promptText="Ward" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="8" />

@@ -1,0 +1,54 @@
+/* ================================================================= */
+/* combo box style */
+/* ================================================================= */
+
+.jfx-grid-pane {
+  -fx-background-color: rgba(191, 196, 199, 0.3);
+  -fx-font-size: 16px;
+}
+
+/* ================================================================= */
+/* date time style */
+/* ================================================================= */
+
+.jfx-date-Picker {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #4e65eb;
+  -fx-text-fill: #000000;
+  -fx-font-size: 16px;
+  -fx-font-family: "Bell MT";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* text field style */
+/* ================================================================= */
+
+.jfx-text-field {
+  -fx-prompt-text-fill: #acadb3;
+  -jfx-focus-color: #4e65eb;
+  -fx-text-fill: #000000;
+  -fx-font-size: 16px;
+  -fx-font-family: "Bell MT";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* label style */
+/* ================================================================= */
+
+.label {
+  -fx-font-size: 16px;
+  -fx-font-family: "Bell MT";
+  -fx-font-weight: bold;
+}
+
+/* ================================================================= */
+/* TreeView style */
+/* ================================================================= */
+.tree-view {
+  -fx-font-size: 16px;
+  -fx-font-family: "Bell MT";
+  -fx-font-weight: bold;
+  /* -fx-background-color: transparent; */
+}

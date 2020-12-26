@@ -17,10 +17,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,8 +38,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import classForDB.Address;
 import classForDB.BaseAccount;
-import classForDB.CustomerAccount;
-import classForDB.EmployeeAccount;
+import classForDB.DataTest;
 import classForDB.OrganizationAccount;
 
 public class SupplierManagement implements Initializable {
@@ -85,27 +82,7 @@ public class SupplierManagement implements Initializable {
     // set formatter for datetime fields in table
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
-    private final ObservableList<BaseAccount> dataOrigin = FXCollections.observableArrayList(
-            new OrganizationAccount("#445", "Kristina Hoppe", "McLaughlin@gmail.com", "0975845628", "Organization",
-                    new Address("Sallie Tunnel", "Eldridge Greens", "Connecticut", "Greece"),
-                    LocalDateTime.of(2019, 03, 4, 14, 33, 48, 12), 10000000L, true, "lazadaPro",
-                    "real nha may be \n alo\n\n\n\n\n alo", "4.9"),
-            new OrganizationAccount("#4243", "Catherine Von", "Bailey@gmail.com", "0988585568", "Organization",
-                    new Address("Cassin Ranch", "Dameon Extension", "Nevada", "Saint Helena"),
-                    LocalDateTime.of(2019, 03, 23, 14, 33, 48, 12), 10000000L, true, "tikiPro", "real nha may be",
-                    "4.9"),
-            new CustomerAccount("#4243", "Willie Hilll", "Stokes@gmail.com", "0988585568", "Customer",
-                    new Address("Marcella Throughway", "Boyle Parks", "Mississippi", "Saint Barthelemy"),
-                    LocalDateTime.of(2019, 03, 23, 14, 33, 48, 12), 10000000L, true, "197756852", "0147852369",
-                    "97041235896", "147654", "Student", LocalDateTime.of(2017, 03, 3, 14, 33, 48, 12),
-                    LocalDateTime.of(2020, 03, 3, 14, 33, 48, 12)),
-            new EmployeeAccount("#86567", "Miss Alexandra Adams", "Koelpin@gmail.com", "0987898882", "Employee",
-                    new Address("Zetta Corner", "Orn Ridges", "Georgia", "Tonga"),
-                    LocalDateTime.of(2019, 03, 16, 14, 33, 48, 12), 10000000L, true, "197756852", "0147852369",
-                    "khangLe124568", "Admin"),
-            new BaseAccount("#435346", "Bad Boy", "Runolfsdottir@gmail.com", "0912040325", "Organization",
-                    new Address("Herman Drive", "Strosin Coves", "Kentucky", "Cyprus"),
-                    LocalDateTime.of(2019, 03, 12, 14, 33, 48, 12), 10000000L, true));
+    private final ObservableList<BaseAccount> dataOrigin = DataTest.getAccountList();
 
     private final ObservableList<OrganizationAccount> dataOfTable = FXCollections.observableArrayList();
 
@@ -193,10 +170,10 @@ public class SupplierManagement implements Initializable {
             }
         });
 
-        // BALANCE MONEY COL SETTING
-        balanceCol.setCellValueFactory(new PropertyValueFactory<>("moneyBalance"));
+        // BALANCE AMOUNT COL SETTING
+        balanceCol.setCellValueFactory(new PropertyValueFactory<>("amountBalance"));
 
-        // ---- setting the money storage column
+        // ---- setting the amount storage column
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         balanceCol.setCellFactory(ms -> new TableCell<OrganizationAccount, Long>() {
 
@@ -281,33 +258,33 @@ public class SupplierManagement implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     OrganizationAccount rowData = row.getItem();
-                    seeMoreInfoAccount(rowData);
+                    viewInfoAccount(rowData);
                 }
             });
             return row;
         });
     }
 
-    private void seeMoreInfoAccount(OrganizationAccount account) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/seeMoreInfoAccount.fxml"));
-        seeMoreInfoAccount seeMoreInfoAccountCtrl = new seeMoreInfoAccount();
-        loader.setController(seeMoreInfoAccountCtrl);
+    private void viewInfoAccount(OrganizationAccount account) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene/viewInfoAccount.fxml"));
+        viewInfoAccount viewInfoAccountCtrl = new viewInfoAccount();
+        loader.setController(viewInfoAccountCtrl);
 
-        JFXScrollPane seeMoreInfoPane = new JFXScrollPane();
+        JFXScrollPane viewInfoPane = new JFXScrollPane();
         try {
-            seeMoreInfoPane.setContent(loader.load());
+            viewInfoPane.setContent(loader.load());
 
             Label title = new Label("Account Info");
-            seeMoreInfoPane.getBottomBar().getChildren().add(title);
+            viewInfoPane.getBottomBar().getChildren().add(title);
             title.setStyle("-fx-text-fill:WHITE; -fx-font-size: 40;");
-            JFXScrollPane.smoothScrolling((ScrollPane) seeMoreInfoPane.getChildren().get(0));
+            JFXScrollPane.smoothScrolling((ScrollPane) viewInfoPane.getChildren().get(0));
 
             Stage newStage = new Stage();
             newStage.setResizable(false);
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.initStyle(StageStyle.UNDECORATED);
-            newStage.setScene(new Scene(seeMoreInfoPane, 550, 700));
-            seeMoreInfoAccountCtrl.showAccount(account);
+            newStage.setScene(new Scene(viewInfoPane, 550, 700));
+            viewInfoAccountCtrl.showAccount(account);
             newStage.show();
 
         } catch (IOException e) {
@@ -350,8 +327,8 @@ public class SupplierManagement implements Initializable {
                 } else if (String.format(account.getJoinTime().format(formatter)).toLowerCase()
                         .indexOf(lowerCaseFilter) != -1) {
                     return true;
-                    // Filter matches money balance.
-                } else if (account.getMoneyBalance().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    // Filter matches amount balance.
+                } else if (account.getAmountBalance().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                 }
                 return false; // Does not match.

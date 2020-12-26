@@ -1,39 +1,15 @@
 package controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
-import java.text.NumberFormat;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXToggleButton;
+
 import com.jfoenix.controls.base.IFXValidatableControl;
-import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
-import com.jfoenix.validation.base.ValidatorBase;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import classComponent.AutoCompleteComboBoxListener;
 import classComponent.ExpandableTextArea;
-import classComponent.MyNumberStringConverter;
-import classComponent.Util;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -49,15 +25,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import classForDB.Address;
 import classForDB.OrganizationAccount;
 
 public class editOrganizationAccountForm implements Initializable {
@@ -92,7 +65,7 @@ public class editOrganizationAccountForm implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setUpFormAutoSize();
+        setUpResizeForm();
 
         // create nodes for infoPane
         initNodesForInfoPanel();
@@ -168,10 +141,11 @@ public class editOrganizationAccountForm implements Initializable {
         for (Node node : childrenNodeOfPane) {
             node.requestFocus();
         }
+        InfoPane.requestFocus();
     }
 
     // set for form enable auto size
-    private void setUpFormAutoSize() {
+    private void setUpResizeForm() {
         // set for InfoPane
         InfoPane.setHgap(25);
         InfoPane.setVgap(45);

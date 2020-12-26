@@ -14,9 +14,9 @@ public class EmployeeAccount extends PersonalAccount {
     };
 
     public EmployeeAccount(String ID, String name, String email, String phoneNumber, String typeAccount,
-            Address address, LocalDateTime joinTime, Long moneyBalance, Boolean status, String identifyID,
+            Address address, LocalDateTime joinTime, Long amountBalance, Boolean status, String identifyID,
             String mobilePhoneNumber, String password, String position) {
-        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, moneyBalance, status, identifyID,
+        super(ID, name, email, phoneNumber, typeAccount, address, joinTime, amountBalance, status, identifyID,
                 mobilePhoneNumber);
         this.password = new SimpleStringProperty(password);
         this.position = new SimpleStringProperty(position);
