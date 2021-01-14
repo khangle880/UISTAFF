@@ -242,8 +242,8 @@ public class reportView implements Initializable {
                             "Role Name");
                     roleNameCol.setPrefWidth(100);
                     TableColumn<TransAmountPerRole, LocalDateTime> transDateCol = new TableColumn<TransAmountPerRole, LocalDateTime>(
-                            "Transaction Date");
-                    transDateCol.setPrefWidth(200);
+                            "Date");
+                    transDateCol.setPrefWidth(150);
                     TableColumn<TransAmountPerRole, Long> amountTransCol = new TableColumn<TransAmountPerRole, Long>(
                             "Transaction Amount");
                     amountTransCol.setPrefWidth(200);
@@ -338,8 +338,8 @@ public class reportView implements Initializable {
                             "Role Name");
                     roleNameCol.setPrefWidth(100);
                     TableColumn<TransNumPerRole, LocalDateTime> transDateCol = new TableColumn<TransNumPerRole, LocalDateTime>(
-                            "Transaction Date");
-                    transDateCol.setPrefWidth(200);
+                            "Date");
+                    transDateCol.setPrefWidth(150);
                     TableColumn<TransNumPerRole, Long> numberTransCol = new TableColumn<TransNumPerRole, Long>(
                             "Transaction Number");
                     numberTransCol.setPrefWidth(200);

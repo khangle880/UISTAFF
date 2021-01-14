@@ -86,12 +86,31 @@ public class Home implements Initializable {
 
     }
 
+    private void HandleButtonCropImage(ObservableList<JFXButton> cropImageBtn) {
+
+        for (JFXButton button : cropImageBtn) {
+            switch (button.getId()) {
+                case "cancelBtn":
+                    button.setOnAction(actionEvent -> {
+                        Lobby insLobby = new Lobby();
+                        loadFXML(getClass().getResource("/scene/lobby.fxml"), insLobby);
+                        ObservableList<JFXButton> lobbyButtons = insLobby.fetchAllButtons();
+                        sideSceneFromLobby(lobbyButtons);
+                    });
+                    break;
+            }
+        }
+    }
+
     private void sideSceneFromNavBar() {
         for (JFXButton button : navBarButtons) {
             switch (button.getId()) {
                 case "changeAvtBtn":
                     button.setOnAction(actionEvent -> {
-                        loadFXML(getClass().getResource("/scene/cropImage.fxml"), new CropImage());
+                        CropImage insCropImage = new CropImage();
+                        loadFXML(getClass().getResource("/scene/cropImage.fxml"), insCropImage);
+                        ObservableList<JFXButton> cropImageBtn = insCropImage.fetchAllButtons();
+                        HandleButtonCropImage(cropImageBtn);
                     });
                     break;
                 case "changeInfoBtn":
@@ -116,7 +135,7 @@ public class Home implements Initializable {
                 case "settingBtn":
                     button.setOnAction(actionEvent -> {
                         // todo: setting handle
-                        // load scene for setting
+                        notifyFuncNotAvailable();
                     });
                     break;
                 case "signOutBtn":

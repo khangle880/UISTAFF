@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import classForDB.BaseAccount;
 import classForDB.DataTest;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -34,6 +35,12 @@ public class NavBar implements Initializable {
     private JFXButton changeInfoBtn;
 
     @FXML
+    private Label positionLbl;
+
+    @FXML
+    private Label staffCodeLbl;
+
+    @FXML
     private JFXButton seeMoreBtn;
 
     @FXML
@@ -47,6 +54,7 @@ public class NavBar implements Initializable {
 
     // AccessDB: get image
     private Image avt = DataTest.getAvt();
+    private BaseAccount user = DataTest.getAccountList().get(3);
 
     private static BooleanProperty isAvtUpdated = new SimpleBooleanProperty();
 
@@ -71,6 +79,12 @@ public class NavBar implements Initializable {
 
         handleAvtUpdate();
 
+    }
+
+    public void bindingDataUser(){
+        userName.setText(user.getName());
+        positionLbl.setText(user.getTypeAccount());
+        staffCodeLbl.setId(user.getID());
     }
 
     // handle when avt in cropImage scene updated, refresh new avt on navbar

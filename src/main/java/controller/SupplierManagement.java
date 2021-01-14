@@ -133,7 +133,7 @@ public class SupplierManagement implements Initializable {
         phoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
         // TYPE COL SETTING
-        ratingCol.setCellValueFactory(new PropertyValueFactory<>("typeAccount"));
+        ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
         // ADDRESS COL SETTING
         addressCol.setCellValueFactory(new PropertyValueFactory<OrganizationAccount, Address>("address"));

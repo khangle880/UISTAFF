@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import classForDB.DataTest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -62,7 +65,20 @@ public class CropImage implements Initializable {
     private ImageView imageBackground;
 
     @FXML
+    private JFXButton openButton;
+
+    @FXML
+    private JFXButton cancelBtn;
+
+    @FXML
     private JFXButton saveButton;
+
+    Image currentAvt = DataTest.getAvt();
+
+    public ObservableList<JFXButton> fetchAllButtons() {
+        ObservableList<JFXButton> allButtons = FXCollections.observableArrayList(cancelBtn, saveButton);
+        return allButtons;
+    }
 
     //variable for cropPane
     private ScrollPane scrollPane = new ScrollPane();
@@ -72,6 +88,7 @@ public class CropImage implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        imageBackground.setImage(currentAvt);
         imagePane.getChildren().remove(group);
 
         //set up crop frame

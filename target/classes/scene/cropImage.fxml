@@ -40,7 +40,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: transparent;" text="Cancel">
+            <JFXButton fx:id="cancelBtn" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: transparent;" text="Cancel">
                <font>
                   <Font name="Bell MT" size="20.0" />
                </font>

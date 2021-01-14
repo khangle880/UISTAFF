@@ -171,12 +171,10 @@ public class viewInfoAccount implements Initializable {
                 Label titleLabel = new Label("Additional Info");
                 Label identifyIDLabel = new Label("Identify ID :");
                 Label mobilePhoneLabel = new Label("Mobile Phone :");
-                Label passwordLabel = new Label("Password :");
                 Label positionLabel = new Label("Position :");
 
                 Label textIdentifyID = new Label();
                 Label textMobilePhone = new Label();
-                Label textPassword = new Label();
                 Label textPosition = new Label();
 
                 // Add new nodes
@@ -184,27 +182,22 @@ public class viewInfoAccount implements Initializable {
                 addInfoPane.addRow(i, titleLabel);
                 addInfoPane.addRow(i + 1, identifyIDLabel, textIdentifyID);
                 addInfoPane.addRow(i + 2, mobilePhoneLabel, textMobilePhone);
-                addInfoPane.addRow(i + 3, passwordLabel, textPassword);
                 addInfoPane.addRow(i + 4, positionLabel, textPosition);
 
                 // bind data
                 textIdentifyID.setText(((EmployeeAccount) account).getIdentifyID());
                 textMobilePhone.setText(((EmployeeAccount) account).getMobilePhoneNumber());
-                textPassword.setText(((EmployeeAccount) account).getPassword());
                 textPosition.setText(((EmployeeAccount) account).getPosition());
             }
                 break;
             case "Organization": {
                 Label titleLabel = new Label("Additional Info");
-                Label passwordLabel = new Label("Password :");
                 Label descriptionLabel = new Label("Description :");
                 Label ratingLabel = new Label("Rating :");
 
-                Label textPassword = new Label();
                 Label textDescription = new Label();
                 Label textRating = new Label();
 
-                textPassword.setText(((OrganizationAccount) account).getPassword());
                 textDescription.setText(((OrganizationAccount) account).getDescription());
                 textRating.setText(((OrganizationAccount) account).getRating());
 
@@ -217,7 +210,6 @@ public class viewInfoAccount implements Initializable {
                 // Add new nodes
                 int i = 0;
                 addInfoPane.addRow(i, titleLabel);
-                addInfoPane.addRow(i + 1, passwordLabel, textPassword);
                 addInfoPane.addRow(i + 2, descriptionLabel, textDescription);
                 addInfoPane.addRow(i + 3, ratingLabel, textRating);
 

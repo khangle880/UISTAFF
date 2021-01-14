@@ -74,7 +74,7 @@
       </Label>
       <VBox styleClass="vbox" stylesheets="@../style/navBar.css">
          <children>
-            <Label focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Position">
+            <Label fx:id="positionLbl" focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Position">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -86,7 +86,7 @@
                   <Insets left="30.0" />
                </padding>
             </Label>
-            <Label focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Staff Code">
+            <Label fx:id="staffCodeLbl" focusTraversable="false" prefHeight="60.0" prefWidth="270.0" text="Staff Code">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>

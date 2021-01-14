@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -46,6 +47,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
@@ -449,7 +451,7 @@ public class editAccountForm implements Initializable {
         ObservableList<Node> childrenNodeOfAddPane = addInfoPane.getChildren();
         ObservableList<Node> nodesEditableOfAddPane = FXCollections.observableArrayList();
         for (Node node : childrenNodeOfAddPane) {
-            if (!(node instanceof Label))
+            if (!(node instanceof Label) && !(node instanceof Button))
                 nodesEditableOfAddPane.add(node);
         }
 
@@ -626,6 +628,31 @@ public class editAccountForm implements Initializable {
         JFXTextField textPassword = new JFXTextField("");
         JFXComboBox<String> cbbPosition = new JFXComboBox<String>();
 
+        textPassword.setMaxWidth(0.0f);
+        Button newPasswordBtn = new Button("Create new Password");
+        newPasswordBtn.setOnAction(a -> {
+            int i = new Random().nextInt(900000) + 100000;
+            textPassword.setText(Integer.toString(i));
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Password is changed");
+            alert.showAndWait();
+        });
+
+        newPasswordBtn.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue && textPassword.getText().equals("")) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Password can not empty");
+                    alert.showAndWait();
+                }
+            }
+        });
+
         cbbPosition.setPrefWidth(400);
         // AccessDB: set data for type card comboBox
         cbbPosition.getItems().addAll("Admin", "Mess Supporter", "OS Manage");
@@ -661,7 +688,7 @@ public class editAccountForm implements Initializable {
         addInfoPane.addRow(i, titleLabel);
         addInfoPane.addRow(i + 1, identifyIDLabel, textIdentifyID);
         addInfoPane.addRow(i + 2, mobilePhoneLabel, textMobilePhone);
-        addInfoPane.addRow(i + 3, passwordLabel, textPassword);
+        addInfoPane.addRow(i + 3, passwordLabel, newPasswordBtn, textPassword);
         addInfoPane.addRow(i + 4, positionLabel, cbbPosition);
 
     }
@@ -685,6 +712,31 @@ public class editAccountForm implements Initializable {
         textDescription.setPromptText("Description");
         textRating.setPromptText("Rating");
 
+        textPassword.setMaxWidth(0.0f);
+        Button newPasswordBtn = new Button("Create new Password");
+        newPasswordBtn.setOnAction(a -> {
+            int i = new Random().nextInt(900000) + 100000;
+            textPassword.setText(Integer.toString(i));
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Password is changed");
+            alert.showAndWait();
+        });
+
+        newPasswordBtn.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue && textPassword.getText().equals("")) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Password can not empty");
+                    alert.showAndWait();
+                }
+            }
+        });
+
         // create validators
         RequiredFieldValidator validatorText = new RequiredFieldValidator();
         NumberValidator validatorNumber = new NumberValidator();
@@ -706,7 +758,7 @@ public class editAccountForm implements Initializable {
         // Add new nodes
         int i = 0;
         addInfoPane.addRow(i, titleLabel);
-        addInfoPane.addRow(i + 1, passwordLabel, textPassword);
+        addInfoPane.addRow(i + 1, passwordLabel, newPasswordBtn, textPassword);
         addInfoPane.addRow(i + 2, descriptionLabel, textDescription);
         addInfoPane.addRow(i + 3, ratingLabel, textRating);
 
@@ -775,7 +827,7 @@ public class editAccountForm implements Initializable {
             ObservableList<Node> childrenNodeOfAddPane = addInfoPane.getChildren();
             ObservableList<Node> nodesEditableOfAddPane = FXCollections.observableArrayList();
             for (Node node : childrenNodeOfAddPane) {
-                if (!(node instanceof Label))
+                if (!(node instanceof Label) && !(node instanceof Button))
                     nodesEditableOfAddPane.add(node);
             }
 
