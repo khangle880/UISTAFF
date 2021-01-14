@@ -256,7 +256,7 @@ public class DataTest {
 
         private static Image avt = new Image("avt/image.jpg", false);
 
-        private static Hyperlink linkDataBase = new Hyperlink("https://www.facebook.com/");
+        private static Hyperlink linkDataBase = new Hyperlink("https://www.mongodb.com");
 
         // getter
         public static ObservableList<BaseAccount> getAccountList() {
